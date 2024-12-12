@@ -1,0 +1,397 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+    
+    .landing-container {
+      background: #fff8f0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    
+    .site-header {
+      align-items: center;
+      background: #f5ede5;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+      display: flex;
+      width: 100%;
+      gap: 40px 95px;
+      padding: 55px 65px;
+      font: 400 26px Sora, sans-serif;
+    }
+    
+    .brand-name {
+      flex-grow: 1;
+      font: 36px Underdog, sans-serif;
+    }
+    
+    .main-nav {
+      display: flex;
+      min-width: 240px;
+      align-items: center;
+      gap: 3px;
+      color: #000;
+      text-align: center;
+    }
+    
+    .nav-link {
+      padding: 15px;
+      width: 146px;
+    }
+    
+    .auth-buttons {
+      display: flex;
+      min-width: 240px;
+      align-items: center;
+      gap: 23px;
+      color: #f8f3ed;
+      text-align: center;
+      flex-grow: 1;
+    }
+    
+    .auth-btn {
+      width: 154px;
+      border-radius: 24px;
+      background: #bd874f;
+      padding: 15px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .hero-section {
+      border-radius: 0 0 24px 24px;
+      background: #000;
+      position: relative;
+      color: #f5f5f5;
+      font: 600 20px Montserrat, sans-serif;
+    }
+    
+    .hero-img {
+      aspect-ratio: 2.06;
+      object-fit: cover;
+      width: 100%;
+      border-radius: 0 0 24px 24px;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    }
+    
+    .hero-content {
+      position: absolute;
+      z-index: 1;
+      left: 70px;
+      bottom: 215px;
+      width: 1106px;
+      max-width: 100%;
+    }
+    
+    .hero-subtitle {
+      font-weight: 500;
+      font-size: 20px;
+    }
+    
+    .hero-title {
+      font-size: 48px;
+      margin: 37px 0;
+    }
+    
+    .cta-button {
+      display: inline-block;
+      border-radius: 24px;
+      background: #bd874f;
+      padding: 15px;
+      color: #f5f5f5;
+      text-decoration: none;
+    }
+    
+    .main-content {
+      margin: 124px auto 0;
+      width: 100%;
+      max-width: 1300px;
+    }
+    
+    .destinations-section {
+      text-align: center;
+      margin-bottom: 140px;
+    }
+    
+    .section-title {
+      font: 32px Sora, sans-serif;
+      letter-spacing: 3.84px;
+      margin-bottom: 23px;
+    }
+    
+    .destinations-grid {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .destination-card {
+      flex: 1;
+      min-width: 240px;
+      text-align: center;
+    }
+    
+    .destination-img {
+      width: 264px;
+      max-width: 100%;
+      border-radius: 24px;
+      margin-bottom: 16px;
+    }
+    
+    .destination-name {
+      font: 600 26px Sora, sans-serif;
+    }
+    
+    .events-section {
+      display: flex;
+      gap: 40px 59px;
+      flex-wrap: wrap;
+      margin-bottom: 140px;
+    }
+    
+    .events-content {
+      flex: 1;
+      min-width: 240px;
+      padding: 5px 10px;
+    }
+    
+    .events-heading {
+      font: 600 36px Sora, sans-serif;
+      letter-spacing: 4.32px;
+    }
+    
+    .events-description {
+      font: 300 16px Sora, sans-serif;
+      margin: 10px 0;
+    }
+    
+    .events-gallery {
+      flex: 2;
+      display: flex;
+      gap: 35px;
+      flex-wrap: wrap;
+    }
+    
+    .event-img {
+      flex: 1;
+      min-width: 240px;
+      border-radius: 24px;
+      object-fit: cover;
+    }
+    
+    .souvenirs-section {
+      text-align: center;
+      margin-bottom: 124px;
+    }
+    
+    .souvenirs-heading {
+      font: 600 36px Sora, sans-serif;
+      margin-bottom: 5px;
+    }
+    
+    .souvenirs-description {
+      font: 300 16px Sora, sans-serif;
+      max-width: 935px;
+      margin: 0 auto 24px;
+    }
+    
+    .souvenirs-grid {
+      display: flex;
+      gap: 35px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .souvenir-card {
+      flex: 1;
+      min-width: 240px;
+      position: relative;
+    }
+    
+    .souvenir-img {
+      width: 100%;
+      border-radius: 24px;
+    }
+    
+    .souvenir-name {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #c69552;
+      color: #f8f3ed;
+      padding: 31px;
+      border-radius: 24px 24px 0 0;
+      font: 600 20px Sora, sans-serif;
+    }
+    
+    .gallery-section {
+      background: #eddec9;
+      border-radius: 24px;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+      padding: 54px 70px;
+      margin-bottom: 129px;
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+    
+    .gallery-heading {
+      font: 700 36px Sora, sans-serif;
+      letter-spacing: 5.04px;
+      text-align: center;
+    }
+    
+    .gallery-subtitle {
+      font: 300 36px Sora, sans-serif;
+      text-align: center;
+      margin: 12px 0 30px;
+    }
+    
+    .gallery-grid {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .gallery-main {
+      flex: 1;
+      min-width: 240px;
+    }
+    
+    .gallery-side {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+    
+    .gallery-img {
+      width: 100%;
+      border-radius: 20px;
+    }
+    
+    .gallery-row {
+      display: flex;
+      gap: 29px;
+    }
+    
+    .site-footer {
+      background: #976c3f;
+      min-height: 502px;
+      position: relative;
+      padding: 83px 159px 40px;
+      color: #dbeff3;
+    }
+    
+    .footer-logo {
+      font: 400 26px Sora, sans-serif;
+      margin-bottom: 18px;
+    }
+    
+    .footer-description {
+      font: 400 26px Sora, sans-serif;
+      max-width: 255px;
+    }
+    
+    .footer-content {
+      display: flex;
+      justify-content: flex-end;
+      gap: 262px;
+      margin-bottom: 40px;
+    }
+    
+    .footer-nav {
+      font: 26px Sora, sans-serif;
+    }
+    
+    .footer-nav-title {
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+    
+    .footer-nav-link {
+      display: block;
+      margin-top: 13px;
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 25px;
+      margin-top: 18px;
+    }
+    
+    .social-icon {
+      width: 50px;
+    }
+    
+    .footer-divider {
+      border: 0;
+      border-top: 1px solid #dbeff3;
+      margin: 0 auto 30px;
+      width: 1280px;
+      max-width: 100%;
+    }
+    
+    .copyright {
+      font: 200 16px Sora, sans-serif;
+      text-align: center;
+    }
+    
+    @media (max-width: 991px) {
+      .site-header {
+        padding: 20px;
+      }
+      
+      .hero-content {
+        padding: 0 20px;
+      }
+      
+      .hero-title {
+        font-size: 40px;
+      }
+      
+      .main-content {
+        margin-top: 40px;
+      }
+      
+      .destinations-section,
+      .events-section {
+        margin-bottom: 40px;
+      }
+      
+      .gallery-section {
+        padding: 20px;
+      }
+      
+      .footer-content {
+        flex-direction: column;
+        gap: 40px;
+      }
+    }
+    
+    @media (max-width: 640px) {
+      .hero-img {
+        max-width: 391px;
+      }
+      
+      .destination-img {
+        width: 174px;
+      }
+    }
+    
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      border: 0;
+    }
+    
