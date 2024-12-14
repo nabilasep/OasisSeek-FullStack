@@ -1,7 +1,9 @@
 <?php
 if (!session_id())
-session_start();
+    session_start();
 include_once __DIR__ . "/database/database.php";
+
+$username = $_SESSION['user']['username'] ?? '';
 
 // Check if des_id or id is set
 $des_id = isset($_GET['des_id']) ? $_GET['des_id'] : (isset($_GET['id']) ? $_GET['id'] : null);
@@ -9,6 +11,25 @@ $des_id = isset($_GET['des_id']) ? $_GET['des_id'] : (isset($_GET['id']) ? $_GET
 if ($des_id === null) {
     header('Location: /destinations.php');
     exit();
+}
+
+// Handle bookmark actions
+if (isset($_POST['bookmark_action'])) {
+    $action = $_POST['bookmark_action'];
+
+    if ($action == 'add') {
+        $bookmark_query = "INSERT INTO bookmark (des_id, username) VALUES (?, ?)";
+        $stmt = $dbs->prepare($bookmark_query);
+        $stmt->bind_param('is', $des_id, $username);
+        $stmt->execute();
+        $stmt->close();
+    } elseif ($action == 'remove') {
+        $bookmark_query = "DELETE FROM bookmark WHERE des_id = ? AND username = ?";
+        $stmt = $dbs->prepare($bookmark_query);
+        $stmt->bind_param('is', $des_id, $username);
+        $stmt->execute();
+        $stmt->close();
+    }
 }
 
 // Fetch destination details
@@ -39,6 +60,14 @@ $stmt_images->execute();
 $data_images = $stmt_images->get_result();
 $images = $data_images->fetch_all(MYSQLI_ASSOC);
 $stmt_images->close();
+
+// Check if the destination is bookmarked
+$bookmark_check_query = "SELECT 1 FROM bookmark WHERE des_id = ? AND username = ?";
+$stmt_check = $dbs->prepare($bookmark_check_query);
+$stmt_check->bind_param('is', $des_id, $username);
+$stmt_check->execute();
+$is_bookmarked = $stmt_check->get_result()->num_rows > 0;
+$stmt_check->close();
 ?>
 
 <!DOCTYPE html>
@@ -58,15 +87,21 @@ $stmt_images->close();
 
         <!-- ======== HERO SECTION ======== -->
         <section class="hero-section-placeseach">
-            <img src="/images/destinations/<?= $destination['banner']; ?>" alt="Scenic view of <?= htmlspecialchars($destination['name']); ?>" class="hero-image-placeseach"/>
+            <img src="/images/destinations/<?= htmlspecialchars($destination['banner']); ?>" alt="Scenic view of <?= htmlspecialchars($destination['name']); ?>" class="hero-image-placeseach"/>
             <div class="hero-content-placeseach">
                 <h1 class="hero-title-placeseach"><?= htmlspecialchars($destination['name']); ?></h1>
                 <!-- ====== share & bookmarks ===== -->
                 <div class="social-icons-placeseach">
                     <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/1a5b77927d2c9a207ab80441ad049d5471fb8745dd1875a1b0991113adc08374?placeholderIfAbsent=true&apiKey=9813aeb455d842cea0d227df786a7f1d"
                          alt="Share on social media" class="social-icons-placeseach"/>
-                    <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/a0dd4d9bd331673a77e14d9cb571d3363609183ba53792017a218736f117f553?placeholderIfAbsent=true&apiKey=9813aeb455d842cea0d227df786a7f1d"
-                         alt="Save to favorites" class="social-icon-placeseach"/>
+                    <form method="POST" action="">
+                        <input type="hidden" name="bookmark_action" value="<?= $is_bookmarked ? 'remove' : 'add'; ?>">
+                        <button type="submit">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/a0dd4d9bd331673a77e14d9cb571d3363609183ba53792017a218736f117f553?placeholderIfAbsent=true&apiKey=9813aeb455d842cea0d227df786a7f1d"
+                                 alt="<?= $is_bookmarked ? 'Remove from favorites' : 'Save to favorites'; ?>"
+                                 class="social-icon-placeseach"/>
+                        </button>
+                    </form>
                 </div>
             </div>
         </section>

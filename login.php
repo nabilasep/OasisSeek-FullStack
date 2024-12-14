@@ -37,6 +37,11 @@ if (isset($_POST['login'])) {
         $_SESSION['user'] = (array)$user;
         $_SESSION['loggedin'] = true;
         $_SESSION['role'] = $data['role'];
+
+        if($user->role == 'admin') {
+            header('Location: /admin/dashboard.php');
+            exit();
+        }
         
         header('Location: /');
         exit(); // Pastikan untuk keluar setelah mengirim header
