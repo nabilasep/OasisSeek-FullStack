@@ -1,7 +1,12 @@
 <?php
 if (!session_id())
     session_start();
-include_once __DIR__ . "/database/database.php";
+
+
+include_once __DIR__ . "/../database/database.php";
+include_once __DIR__ ."/../middleware/middleware.php";
+isLoggedIn();
+isAdmin();
 
 // Fetch the total number of users
 $query_users = "SELECT COUNT(*) as total_users FROM users";

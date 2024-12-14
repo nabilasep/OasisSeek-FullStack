@@ -12,6 +12,8 @@ CREATE TABLE users(
     role        enum('admin','user') DEFAULT 'user'
 );
 
+INSERT INTO users(email, password, username, name, role) VALUES ('admin@gmail.com', '$2y$10$3LhGm4lnfxtVI2y7/DHJGuXnBU.dd5yCIIvKC9cJH7QnQC.aPr.F2', 'admin', 'admin', 'admin');
+
 CREATE TABLE destinations(
     des_id      INT PRIMARY KEY AUTO_INCREMENT,
     name        VARCHAR(50)     NOT NULL,

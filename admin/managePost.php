@@ -1,7 +1,10 @@
 <?php
 if (!session_id())
     session_start();
-include_once __DIR__ . "/database/database.php";
+include_once __DIR__ . "/../database/database.php";
+include_once __DIR__ ."/../middleware/middleware.php";
+isLoggedIn();
+isAdmin();
 
 $query_destinations = "SELECT COUNT(*) as total_destinations FROM destinations";
 $stmt_destinations = $dbs->prepare($query_destinations);
