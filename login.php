@@ -1,10 +1,15 @@
 <?php
-session_start();
+if (!session_id())
+    session_start();
 
 use \model\User;
 
-require_once __DIR__ . "/../database/database.php";
-require_once __DIR__ . "/../model/User.php";
+require_once __DIR__ . "/database/database.php";
+require_once __DIR__ . "/model/User.php";
+require_once __DIR__ . "/middleware/middleware.php";
+
+// Middleware to check if user is not logged in
+isNotLoggedIn();
 
 if (isset($_POST['login'])) {
     $email = $_POST['email'];
@@ -30,6 +35,9 @@ if (isset($_POST['login'])) {
         $user->phone = $data['phone'];
 
         $_SESSION['user'] = (array)$user;
+        $_SESSION['loggedin'] = true;
+        $_SESSION['role'] = $data['role'];
+        
         header('Location: /');
         exit(); // Pastikan untuk keluar setelah mengirim header
     } else {
@@ -38,11 +46,12 @@ if (isset($_POST['login'])) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html>
     <head>
         <title>Oasis Seek</title>
+        <link rel="stylesheet" type="text/css" href="/css/styles.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
             .login-container {
             background-color: #fff;
@@ -327,7 +336,6 @@ if (isset($_POST['login'])) {
             </style>
     </head>
 
-
     <body>
         <div class="login-container">
           <div class="login-wrapper">
@@ -338,26 +346,26 @@ if (isset($_POST['login'])) {
                   <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/77364bbb6afb29b49e15c1eead3b0f04de6614b1d0333f6c14b66c5d3dadccf2?placeholderIfAbsent=true&apiKey=9813aeb455d842cea0d227df786a7f1d" class="login-image" alt="Login illustration" />
                 </div>
                 <div class="form-column">
-                  <form class="form-container">
+                  <form class="form-container" method="POST" action="">
                     <h1 class="brand-title">OasisSeek</h1>
                     <div class="login-header">
                       <h2 class="login-title">Login</h2>
                       <div class="signup-prompt">
-                        <span>Don't have account?</span>
-                        <a href="#" class="sign-up">Sign-up</a>
+                        <span>Don't have an account?</span>
+                        <a href="register.php" class="sign-up">Sign-up</a>
                       </div>
                     </div>
                     <div class="login-form">
                       <div class="input-group">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" id="email" class="form-input" aria-label="Enter email" />
+                        <input type="email" id="email" name="email" class="form-input" aria-label="Enter email" required/>
                       </div>
                       <div class="input-group">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" id="password" class="form-input" aria-label="Enter password" />
+                        <input type="password" id="password" name="password" class="form-input" aria-label="Enter password" required/>
                       </div>
                     </div>
-                    <button type="submit" class="login-button">Login</button>
+                    <button type="submit" name="login" class="login-button">Login</button>
                   </form>
                 </div>
               </div>
@@ -366,4 +374,3 @@ if (isset($_POST['login'])) {
         </div>
     </body>
 </html>
-

@@ -1,51 +1,51 @@
 <?php
-
-session_start();
-
+if (!session_id())
+    session_start();
 
 use model\User;
 
-require_once __DIR__ . "/../database/database.php";
-require_once __DIR__ . "/../model/User.php";
+require_once __DIR__ . "/database/database.php";
+require_once __DIR__ . "/model/User.php";
+require_once __DIR__ . "/middleware/middleware.php";
+
+// Middleware to check if user is not logged in
+isNotLoggedIn();
 
 if(isset($_POST['register'])){
     try{
         mysqli_begin_transaction($dbs);
 
-    $user = new User();
-    $user->username = $_POST['username'] ?? null;
-    $user->password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-    $user->email = $_POST['email'] ?? null;
-    $user->name = $_POST['name'] ?? null;
+        $user = new User();
+        $user->username = $_POST['username'] ?? null;
+        $user->password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+        $user->email = $_POST['email'] ?? null;
+        $user->name = $_POST['name'] ?? null;
 
-    $validate = $dbs->prepare("SELECT email, username FROM users WHERE email = ? OR username = ?");
-    $validate->bind_param("ss", $user->email, $user->username);
-    $validate->execute();
-    $result = $validate->get_result();
-    $data = $result->fetch_assoc();
+        $validate = $dbs->prepare("SELECT email, username FROM users WHERE email = ? OR username = ?");
+        $validate->bind_param("ss", $user->email, $user->username);
+        $validate->execute();
+        $result = $validate->get_result();
+        $data = $result->fetch_assoc();
 
-    
-    if($data){
-        echo "<script>alert('Email atau username sudah digunakan')</script> ";
-    }else{
-        $insert = $dbs->prepare("INSERT INTO  users (username, password, email, name) VALUES (?,?,?,?)");
-        $insert->bind_param("ssss", $user->username, $user->password, $user->email, $user->name);
+        if($data){
+            echo "<script>alert('Email atau username sudah digunakan')</script> ";
+        }else{
+            $insert = $dbs->prepare("INSERT INTO users (username, password, email, name) VALUES (?,?,?,?)");
+            $insert->bind_param("ssss", $user->username, $user->password, $user->email, $user->name);
             $insert->execute();
 
-        mysqli_commit($dbs);
+            mysqli_commit($dbs);
 
-        echo"<script>
-        alert('Pendaftaran Berhasil');
-        location.replace('login.php')
-        </script>";
-        exit();
-       
-    }
+            echo"<script>
+            alert('Pendaftaran Berhasil');
+            location.replace('login.php');
+            </script>";
+            exit();
+        }
 
-    }catch(Exception $error) {
+    } catch(Exception $error) {
         mysqli_rollback($dbs);
         echo"<script>alert('ERROR database : $error')</script>";
-       
     }
 }
 ?>
@@ -56,6 +56,7 @@ if(isset($_POST['register'])){
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OasisSeek</title>
+  <link rel="stylesheet" type="text/css" href="/css/styles.css"/>
   <style>
     * {
       box-sizing: border-box;
@@ -239,46 +240,36 @@ if(isset($_POST['register'])){
 <body>
   <div class="signup-container">
     <div class="signup-wrapper">
-      <img
-        loading="lazy"
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/0531993187149dbf378c78dfa09c5fad3741573dd39e2d51be801f5ea605c52b"
-        class="background-image"
-        alt=""
-      />
+      <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/0531993187149dbf378c78dfa09c5fad3741573dd39e2d51be801f5ea605c52b" class="background-image" alt=""/>
       <div class="content-container">
         <div class="image-column">
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/77364bbb6afb29b49e15c1eead3b0f04de6614b1d0333f6c14b66c5d3dadccf2"
-            class="hero-image"
-            alt="OasisSeek signup illustration"
-          />
+          <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/77364bbb6afb29b49e15c1eead3b0f04de6614b1d0333f6c14b66c5d3dadccf2" class="hero-image" alt="OasisSeek signup illustration"/>
         </div>
         <div class="form-column">
-          <form class="signup-form-container">
+          <form class="signup-form-container" method="POST" action="">
             <h1 class="brand-title">OasisSeek</h1>
             <h2 class="signup-title">Sign-up</h2>
             <div class="login-prompt">
               <span>Already have an account?</span>
-              <a href="#" class="login-link">Login</a>
+              <a href="login.php" class="login-link">Login</a>
             </div>
             <div class="form-group">
               <label for="username">Username</label>
-              <input type="text" id="username" class="form-input" required />
+              <input type="text" id="username" name="username" class="form-input" required/>
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" id="password" class="form-input" required />
+              <input type="password" id="password" name="password" class="form-input" required/>
             </div>
             <div class="form-group">
               <label for="email">E-mail</label>
-              <input type="email" id="email" class="form-input" required />
+              <input type="email" id="email" name="email" class="form-input" required/>
             </div>
             <div class="form-group">
               <label for="name">Name</label>
-              <input type="text" id="name" class="form-input" required />
+              <input type="text" id="name" name="name" class="form-input" required/>
             </div>
-            <button type="submit" class="submit-button">Sign-up</button>
+            <button type="submit" name="register" class="submit-button">Sign-up</button>
           </form>
         </div>
       </div>
@@ -286,5 +277,3 @@ if(isset($_POST['register'])){
   </div>
 </body>
 </html>
-</body>
-</html> 
