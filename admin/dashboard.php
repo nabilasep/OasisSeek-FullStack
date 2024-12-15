@@ -114,6 +114,7 @@ $total_postings = $total_destinations + $total_events;
             margin-top: 17px;
         }
     </style>
+    <link rel="stylesheet" href="../images/assets/styles.css">
 </head>
 
 <body>
@@ -132,7 +133,7 @@ $total_postings = $total_destinations + $total_events;
                         <header class="dashboard-header">
                             <h1 class="page-title-dashboard">Dashboard</h1>
                             <div class="user-profile-dashboard">
-                                <img class="profile-icon-dashboard" src="../assets/profile-admin.png"
+                                <img class="profile-icon-dashboard" src="../images/assets/profile-admin.png"
                                     alt="User profile" />
                                 <div class="profile-text-dashboard">Admin</div>
                             </div>
@@ -144,7 +145,7 @@ $total_postings = $total_destinations + $total_events;
                                 <div class="stats-card">
                                     <div class="card-content">
                                         <div class="stats-wrapper"> <img class="stats-icon"
-                                                src="../assets/stats-icon1.png" alt="Users icon" />
+                                                src="../images/assets/stats-icon1.png" alt="Users icon" />
                                             <div class="stats-info">
                                                 <div class="stats-number"><?= htmlspecialchars($total_users); ?></div>
                                                 <div class="stats-label">Total Users</div>
@@ -155,7 +156,7 @@ $total_postings = $total_destinations + $total_events;
                                 <div class="stats-card">
                                     <div class="card-content">
                                         <div class="stats-wrapper"> <img class="stats-icon"
-                                                src="../assets/stats-icon2.png" alt="Posts icon" />
+                                                src="../images/assets/stats-icon2.png" alt="Posts icon" />
                                             <div class="stats-info">
                                                 <div class="stats-number"><?= htmlspecialchars($total_postings); ?>
                                                 </div>

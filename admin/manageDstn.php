@@ -7,11 +7,61 @@ include_once __DIR__ . "/../middleware/middleware.php";
 isAdmin();
 isLoggedIn();
 
-$query = "SELECT des_id,name,banner FROM destinations GROUP BY des_id ORDER BY des_id DESC";
+$query = "SELECT des_id, name, banner FROM destinations ORDER BY des_id DESC";
 $stmt = $dbs->prepare($query);
 $stmt->execute();
 $data = $stmt->get_result();
-$destination = $data->fetch_array(MYSQLI_ASSOC);
+$destinations = $data->fetch_all(MYSQLI_ASSOC);
+
+if (isset($_POST['delete'])) {
+
+    $stmt = $dbs->prepare('SELECT des_id,banner FROM destinations WHERE des_id = ?');
+    $stmt->bind_param('i', $_POST['des_id']);
+    $stmt->execute();
+    $data = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+
+    if ($data) {
+
+        $pathdir = __DIR__ . '/../images/destinations/';
+
+        if (file_exists($pathdir . $data["banner"])) {
+            unlink($pathdir . $data["banner"]);
+        }
+
+        // Delete associated images from img_destinations
+        $stmt = $dbs->prepare("SELECT photo FROM img_destinations WHERE des_id = ?");
+        $stmt->bind_param("i", $data["des_id"]);
+        $stmt->execute();
+        $img_data = $stmt->get_result();
+
+        while ($img = $img_data->fetch_assoc()) {
+            if (file_exists($pathdir . $img["photo"])) {
+                unlink($pathdir . $img["photo"]);
+            }
+        }
+        $stmt->close();
+
+        $stmt = $dbs->prepare("DELETE FROM img_destinations WHERE des_id = ?");
+        $stmt->bind_param("i", $data["des_id"]);
+        $stmt->execute();
+        $stmt->close();
+
+        $stmt = $dbs->prepare("DELETE FROM destinations WHERE des_id = ?");
+        $stmt->bind_param("i", $data["des_id"]);
+        $stmt->execute();
+        echo "<script>
+        alert('delete successfully');
+        location.replace('/admin/manageDstn.php');
+      </script>";
+    } else {
+        echo "<script>
+                alert('ERROR: Destination not found');
+                location.replace('/admin/manageDstn.php');
+              </script>";
+    }
+
+}
 
 ?>
 
@@ -20,7 +70,8 @@ $destination = $data->fetch_array(MYSQLI_ASSOC);
 
 <head>
     <?php include_once __DIR__ . "/../template/meta.php"; ?>
-    <title>Document</title>
+    <link rel="stylesheet" href="../images/assets/styles.css">
+    <title>Document</title> 
     <style>
         .places-grid {
             display: flex;
@@ -29,7 +80,6 @@ $destination = $data->fetch_array(MYSQLI_ASSOC);
             justify-content: flex-start;
             margin: 20px auto;
         }
-
 
         .place-card {
             display: flex;
@@ -41,7 +91,6 @@ $destination = $data->fetch_array(MYSQLI_ASSOC);
             width: 100%;
             overflow: hidden;
         }
-
 
         .image-container {
             position: relative;
@@ -57,7 +106,6 @@ $destination = $data->fetch_array(MYSQLI_ASSOC);
             height: 100%;
             object-fit: cover;
         }
-
 
         .action-buttons {
             position: absolute;
@@ -102,7 +150,6 @@ $destination = $data->fetch_array(MYSQLI_ASSOC);
             opacity: 0.8;
         }
 
-
         .add-button {
             position: fixed;
             bottom: 20px;
@@ -121,7 +168,6 @@ $destination = $data->fetch_array(MYSQLI_ASSOC);
             cursor: pointer;
             z-index: 100;
             border: none;
-
         }
 
         .add-button:hover {
@@ -148,45 +194,38 @@ $destination = $data->fetch_array(MYSQLI_ASSOC);
             }
         }
     </style>
-
 </head>
 
 <body>
-
-<?php include_once __DIR__ . "/../template/navbarAdm.php"; ?>
-
-    <div class="container-dashboard"> <!-- ======= SIDEBAR DASHBOARD ======== -->
-        <div class="sidebar-dashboard">
-            <div class="logo-dashboard">OasisSeek</div>
-            <ul class="menu">
-                <li> <a href="dashboard-MAIN.html"> <img src="../assets/dashboard-icon.png" alt="Dashboard Icon">
-                        Dashboard </a> </li>
-                <li> <a href="dashboard-POST.html"> <img src="../assets/manage-icon.png" alt="Manage Posts Icon"> Manage
-                        Posts </a> </li>
-            </ul>
-        </div> <!-- ======= MAIN DASHBOARD ======== -->
+    <div class="container-dashboard">
+        <?php include_once __DIR__ . "/../template/navbarAdm.php"; ?>
         <div class="main-dashboard">
-            <div class="dashboard"> <!-- ===== Header ======= -->
+            <div class="dashboard">
                 <header class="dashboard-header">
                     <h1 class="page-title-dashboard">Places</h1>
-                    <div class="user-profile-dashboard"> <img class="profile-icon-dashboard"
-                            src="../assets/profile-admin.png" alt="User profile" />
+                    <div class="user-profile-dashboard">
+                        <img class="profile-icon-dashboard" src="../images/assets/profile-admin.png" alt="User profile" />
                         <div class="profile-text-dashboard">Admin</div>
                     </div>
-                </header> <!-- ===== Konten ======= -->
+                </header>
                 <div class="dashboard-content">
-                    <div class="places-grid"> <?php foreach ($destinations as $data): ?>
+                    <div class="places-grid">
+                        <?php foreach ($destinations as $data): ?>
                             <article class="place-card">
-                                <div class="image-container"> <img src="<?= htmlspecialchars($data["banner"]); ?>"
-                                        alt="Destination banner" class="place-image" />
-                                    <div class="action-buttons"> <!-- Edit Button --> <button class="action-icon"
-                                            aria-label="Edit place"
+                                <div class="image-container">
+                                    <img src="/images/destinations/<?= $data["banner"] ?>" alt="Destination banner"
+                                        class="place-image" />
+                                    <div class="action-buttons">
+                                        <button class="action-icon" aria-label="Edit place"
                                             onclick="window.location.href='/admin/editDstn.php?id=<?= htmlspecialchars($data["des_id"]); ?>';">
-                                            ✏️ </button> <!-- Delete Button -->
-                                        <form action="" method="post"> <input type="hidden" name="des_id"
-                                                value="<?= htmlspecialchars($data["des_id"]); ?>"> <button
-                                                class="action-icon" type="submit" name="delete"
-                                                aria-label="Delete place">❌</button> </form>
+                                            ✏️
+                                        </button>
+                                        <form action="" method="post">
+                                            <input type="hidden" name="des_id"
+                                                value="<?= htmlspecialchars($data["des_id"]); ?>">
+                                            <button class="action-icon" type="submit" name="delete"
+                                                aria-label="Delete place">❌</button>
+                                        </form>
                                     </div>
                                 </div>
                                 <div class="card-content">
@@ -194,9 +233,10 @@ $destination = $data->fetch_array(MYSQLI_ASSOC);
                                         <h2 class="place-title"><?= htmlspecialchars($data["name"]); ?></h2>
                                     </div>
                                 </div>
-                            </article> <?php endforeach; ?>
-                    </div> <!-- Add Post Button --> <button class="add-button"
-                        onclick="window.location.href='/admin/createDstn.php';"> Add Post </button>
+                            </article>
+                        <?php endforeach; ?>
+                    </div>
+                    <button class="add-button" onclick="window.location.href='/admin/createDstn.php';">Add Post</button>
                 </div>
             </div>
         </div>

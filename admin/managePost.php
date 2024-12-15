@@ -29,6 +29,7 @@ $stmt_events->close();
 <head>
     <?php include_once __DIR__ . "/../template/meta.php"; ?>
     <title>Document</title>
+    <link rel="stylesheet" href="../images/assets/styles.css">
     <style>
         .stats-grid {
             align-self: start;
@@ -155,17 +156,17 @@ $stmt_events->close();
             <header class="dashboard-header">
                 <h1 class="page-title-dashboard">Manage Posts</h1>
                 <div class="user-profile-dashboard">
-                    <img class="profile-icon-dashboard" src="../assets/profile-admin.png" alt="User profile" />
+                    <img class="profile-icon-dashboard" src="../images/assets/profile-admin.png" alt="User profile" />
                     <div class="profile-text-dashboard">Admin</div>
                 </div>
             </header>
 
             <!-- ===== Konten Stats ======= -->
             <div class="dashboard-content">
-                <section class="stats-grid" aria-label="Statistics Overview"> <a href="dashboard-places.html"
-                        class="stats-card">
+                <section class="stats-grid" aria-label="Statistics Overview">
+                    <a href="/admin/manageDstn.php" class="stats-card">
                         <div class="card-content">
-                            <div class="stats-wrapper"> <img loading="lazy" src="../assets/places-POST.png"
+                            <div class="stats-wrapper"> <img loading="lazy" src="../images/assets/places-POST.png"
                                     class="stats-icon" alt="Places icon" />
                                 <div class="stats-info">
                                     <div class="stats-number"><?= htmlspecialchars($total_destinations); ?></div>
@@ -173,9 +174,9 @@ $stmt_events->close();
                                 </div>
                             </div>
                         </div>
-                    </a> <a href="dashboard-events.html" class="stats-card">
+                    </a> <a href="/admin/manageEvnt.php" class="stats-card">
                         <div class="card-content">
-                            <div class="stats-wrapper"> <img loading="lazy" src="../assets/events-POST.png"
+                            <div class="stats-wrapper"> <img loading="lazy" src="../images/assets/events-POST.png"
                                     class="stats-icon" alt="Events icon" />
                                 <div class="stats-info">
                                     <div class="stats-number"><?= htmlspecialchars($total_events); ?></div>
@@ -183,7 +184,7 @@ $stmt_events->close();
                                 </div>
                             </div>
                         </div>
-                    </a> 
+                    </a>
                 </section>
             </div>
         </div>

@@ -33,7 +33,7 @@ if (!$event) {
 <head>
     <meta charset="UTF-8"/>
     <title>Event Each - OasisSeek</title>
-    <link rel="stylesheet" type="text/css" href="/images/assets/styles.css"/>
+    <link rel="stylesheet" type="text/css" href="../images/assets/styles.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -44,10 +44,8 @@ if (!$event) {
   <!-- ======== HERO EVENT-EACH ======== -->
   <section class="hero-section-eventeach">
     <img src="/images/events/<?= htmlspecialchars($event['banner']); ?>" alt="Scenic view of <?= htmlspecialchars($event['name']); ?>" class="hero-content-eventeach"/>
-        <h1 class="hero-title-eventeach"><?= htmlspecialchars($event['name']); ?></h1>
         <div class="social-icons-eventeach">
-          <img src="../assets/share-icon.png" alt="" class="share-icon-eventeach"/>
-          <img src="../assets/bookmark-icon.png" alt="" class="bookmark-icon-eventeach"/>
+          <h1 class="hero-title-eventeach"><?= htmlspecialchars($event['name']); ?></h1>
         </div>
       </div>
     </section>

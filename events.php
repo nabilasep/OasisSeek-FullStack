@@ -87,63 +87,87 @@ $stmt->close();
 
         <!-- ======== HERO SECTION ======== -->
         <section class="hero-section-eventlist">
-            <img src="../assets/event.png" class="hero-image-eventlist" />
+            <img src="/images/assets/event.png" class="hero-image-eventlist" />
             <h1 class="hero-title-eventlist">Event</h1>
         </section>
 
-        <!-- ======== SEARCH BAR ======== -->
-        <div class="search-container">
-            <div class="filter-item"> <label for="name">Name</label> <input type="text" id="name" class="filter-input"
-                    name="search_name" placeholder="Search by name" value="<?= htmlspecialchars($search_name); ?>">
+        <div class="jumbotron">
+            <!-- ======== SEARCH BAR ======== -->
+            <div class="search-container">
+                <form method="GET" action="" id="search-form">
+                    <div class="filter-item"> <label for="name">Name</label> <input type="text" name="search_name"
+                            placeholder="Search by name" value="<?= htmlspecialchars($search_name); ?>">
+                    </div>
+                    <div class="filter-item"> <label for="date">Date</label> <input type="date" name="search_date"
+                            placeholder="Search by date" value="<?= htmlspecialchars($search_date); ?>">
+                    </div>
+                    <button class="search-button" type="submit" form="search-form">Search</button>
+                </form>
             </div>
-            <div class="filter-item"> <label for="date">Date</label> <input type="date" id="date" class="filter-input"
-                    name="search_date" placeholder="Search by date" value="<?= htmlspecialchars($search_date); ?>">
-            </div> <button class="search-button" type="submit" form="search-form">Search</button>
-        </div> <!-- Search Form -->
-        <form method="GET" action="" id="search-form"> 
-            <input type="text" name="search_name" placeholder="Search by name" value="<?= htmlspecialchars($search_name); ?>"> 
-                <input type="date" name="search_date" placeholder="Search by date" value="<?= htmlspecialchars($search_date); ?>"> <button
-                type="submit">Search</button> </form>
 
-        <!-- ======== UPCOMING LIST CONTAINER ======== -->
-        <h2 class="upcoming-event-title">Upcoming Event</h2>
-        <div class="eventlist-grid">
-              <!-- row 1 -->
-              <div class="eventlist-row">
-            <?php foreach ($events as $event): ?>
-                <div class="event-card">
-                    <img src="/images/events/<?= htmlspecialchars($event['banner']); ?>"
-                        alt="<?= htmlspecialchars($event['name']); ?>" class="event-image" />
-                    <div class="event-info">
-                        <h2 class="event-name"><?= htmlspecialchars($event['name']); ?></h2>
-                        <p class="event-date"><?= htmlspecialchars($event['date']); ?></p>
+            <!-- ======== UPCOMING LIST CONTAINER ======== -->
+            <div class="upcoming-container">
+                <h2 class="upcoming-event-title">Upcoming Event</h2>
+                <div class="eventlist-grid">
+                    <!-- row 1 -->
+                    <div class="events-gallery">
+                        <?php foreach ($events as $event): ?>
+
+                            <article class="event-card" tabindex="0">
+                                <img loading="lazy" src="/images/events/<?= $event["banner"] ?>" class="eventlist-image"
+                                    alt="<?= $event['name'] ?>" />
+                                <a href="/events_detail.php?id=<?= $event['event_id'] ?>l" class="event-details">
+                                    <div class="event-info">
+                                        <h2 class="event-title"><?= $event['name'] ?></h2>
+                                        <time class="event-date"
+                                            datetime="<?= $event['date'] ?>"><?= $event['date'] ?></time>
+                                    </div>
+                                </a>
+                            </article>
+
+                        <?php endforeach; ?>
                     </div>
                 </div>
-            <?php endforeach; ?>
-    </div>
+            </div>
+        </div>
+        <!-- <div class="events-gallery">
+            <?php foreach ($events as $event): ?>
+                <article class="event-card-home" tabindex="0">
+                    <img loading="lazy" src="/images/events/<?= $event['banner']; ?>"alt="image of <?= $event['name']; ?>" class="event-image-home">
+                      <a href="events_detail.php" class="event-details-home">
+                        <div class="event-info-home">
+                          <h2 class="event-title-home"><br><?= $event['name']; ?></h2>
+                          <h2 class="event-date-home" ><br><?= $event['date']; ?></h2>
+                        </div>
+                      </a>
+                      </article>
+                    <?php endforeach; ?>
+                    
+              </div>
+            </section> -->
 
-    <!-- Pagination links -->
-    <div class="pagination">
-        <?php if ($page > 1): ?>
-            <a
-                href="?page=<?= $page - 1; ?>&search_name=<?= htmlspecialchars($search_name); ?>&search_date=<?= htmlspecialchars($search_date); ?>">&laquo;
-                Previous</a>
-        <?php endif; ?>
-        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-            <a href="?page=<?= $i; ?>&search_name=<?= htmlspecialchars($search_name); ?>&search_date=<?= htmlspecialchars($search_date); ?>"
-                <?php if ($i == $page)
-                    echo 'class="active"'; ?>><?= $i; ?></a>
-        <?php endfor; ?>
-        <?php if ($page < $total_pages): ?>
-            <a
-                href="?page=<?= $page + 1; ?>&search_name=<?= htmlspecialchars($search_name); ?>&search_date=<?= htmlspecialchars($search_date); ?>">Next
-                &raquo;</a>
-        <?php endif; ?>
-    </div>
-    </main>
+        <!-- Pagination links -->
+        <div class="pagination">
+            <?php if ($page > 1): ?>
+                <a
+                    href="?page=<?= $page - 1; ?>&search_name=<?= htmlspecialchars($search_name); ?>&search_date=<?= htmlspecialchars($search_date); ?>">&laquo;
+                    Previous</a>
+            <?php endif; ?>
+            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                <a href="?page=<?= $i; ?>&search_name=<?= htmlspecialchars($search_name); ?>&search_date=<?= htmlspecialchars($search_date); ?>"
+                    <?php if ($i == $page)
+                        echo 'class="active"'; ?>><?= $i; ?></a>
+            <?php endfor; ?>
+            <?php if ($page < $total_pages): ?>
+                <a
+                    href="?page=<?= $page + 1; ?>&search_name=<?= htmlspecialchars($search_name); ?>&search_date=<?= htmlspecialchars($search_date); ?>">Next
+                    &raquo;</a>
+            <?php endif; ?>
+        </div>
+        </main>
 
-    <!-- =========== FOOTER =========== -->
-    <?php include_once __DIR__ . "/template/footer.php"; ?>
+        <!-- =========== FOOTER =========== -->
+        <?php include_once __DIR__ . "/template/footer.php"; ?>
 
 </body>
 

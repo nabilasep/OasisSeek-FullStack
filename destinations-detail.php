@@ -93,13 +93,13 @@ $stmt_check->close();
 
                 <!-- ====== share & bookmarks ===== -->
                 <div class="social-icons-placeseach">
-                    <img src="../assets/share-icon.png" 
+                    <img src="/images/assets/share-icon.png" 
                         alt="Share on social media" 
                             class="social-icons-placeseach"/>
                 <form method="POST" action="">
                         <input type="hidden" name="bookmark_action" value="<?= $is_bookmarked ? 'remove' : 'add'; ?>">
                         <button type="submit">
-                            <img src="../assets/bookmark-icon.png" 
+                            <img src="/images/assets/bookmark-icon-hover.png" 
                                  alt="<?= $is_bookmarked ? 'Remove from favorites' : 'Save to favorites'; ?>"
                                  class="bookmark-icon-eventeach"/>
                         </button>
@@ -111,7 +111,7 @@ $stmt_check->close();
         <!-- ====== navigasi back to placelist ===== -->
         <nav class="breadcrumb-placeseach" aria-label="Breadcrumb navigation">
             <div class="breadcrumb-list-placeseach">
-                <a href="place-list.html" class="back-nav-placeseach">Places</a>
+                <a href="destinations.php" class="back-nav-placeseach">Places</a>
                 <span>/</span>
                 <span><?= htmlspecialchars($destination['name']); ?></span>
             </div>

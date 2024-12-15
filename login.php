@@ -351,11 +351,11 @@ if (isset($_POST['login'])) {
   <!-- ======== CONTAINER LOGIN ======== -->
   <div class="login-container">
     <div class="login-wrapper">
-      <img class="background-image" src="../assets/background.png" alt="" loading="lazy" />
+      <img class="background-image" src="/images/assets/background.png" alt="" loading="lazy" />
       <div class="content-container">
         <div class="content-grid">
           <div class="image-column">
-            <img class="hero-image" src="../assets/hero-log-sign.png" alt="login illustration" loading="lazy" />
+            <img class="hero-image" src="/images/assets/hero-log-sign.png" alt="login illustration" loading="lazy" />
           </div>
           <div class="form-column">
             <form class="login-form" method="POST" action="">

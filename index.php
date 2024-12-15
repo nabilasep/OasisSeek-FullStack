@@ -32,7 +32,7 @@ $events = getData($dbs, $query);
 
         <!-- ======== BERANDA ======== -->
     <section class="hero-section">
-      <img src="../assets/landing-page.png" alt="Egyptian landscape panorama" class="hero-img" />
+      <img src="/images/assets/landing-page.png" alt="Egyptian landscape panorama" class="hero-img" />
       <div class="hero-content">
         <p class="hero-subtitle">DISCOVER EGYPT</p>
         <h2 class="hero-title">Experience Unforgettable Landscape, Relive History!</h2>
@@ -48,7 +48,7 @@ $events = getData($dbs, $query);
             <div class="destinations-grid">
                     <?php foreach ($destinations as $destination): ?>
                         <article class="destination-card">
-                            <img src="/images/<?= $destination['banner']; ?>" alt="image of <?= $destination['name']; ?>"
+                            <img src="/images/destinations/<?= $destination['banner']; ?>" alt="image of <?= $destination['name']; ?>"
                                 class="destination-img" />
                             <h3 class="destination-name">
                                 <?= $destination['name']; ?>
@@ -65,13 +65,22 @@ $events = getData($dbs, $query);
                         <p class="events-description">Dive into rich history, stunning landscapes, and cultural experiences that will leave you inspired.</p>
                     <a href="events.php" class="cta-button-discover"><b>Discover more events</b></a>
                  </div>
-                    <?php foreach ($events as $event): ?>
-                    <img src="/images/<?= $event['banner']; ?>"alt="image of <?= $event['name']; ?>">
-                    <?php endforeach; ?>
-          
-                </div>
-            </section>
 
+                 <div class="events-gallery">
+                    <?php foreach ($events as $event): ?>
+                      <article class="event-card-home" tabindex="0">
+                      <img loading="lazy" src="/images/events/<?= $event['banner']; ?>"alt="image of <?= $event['name']; ?>" class="event-image-home">
+                      <a href="events_detail.php" class="event-details-home">
+                        <div class="event-info-home">
+                          <h2 class="event-title-home"><br><?= $event['name']; ?></h2>
+                          <h2 class="event-date-home" ><br><?= $event['date']; ?></h2>
+                        </div>
+                      </a>
+                      </article>
+                    <?php endforeach; ?>
+                    
+              </div>
+            </section>
               <!-- ========== GALLERY ========== -->
             <section class="gallery-section">
                 <h2 class="gallery-heading">GALLERY</h2>

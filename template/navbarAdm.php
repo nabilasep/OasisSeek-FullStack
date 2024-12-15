@@ -4,15 +4,19 @@
       <div class="logo-dashboard">OasisSeek</div>
       <ul class="menu">
         <li>
-          <a href="dashboard-MAIN.html">
-            <img src="../assets/dashboard-icon.png" alt="Dashboard Icon">
+          <a href="/admin/dashboard.php">
+            <img src="../images/assets/dashboard-icon.png" alt="Dashboard Icon">
             Dashboard
           </a>
         </li>
         <li>
-          <a href="dashboard-POST.html">
-            <img src="../assets/manage-icon.png" alt="Manage Posts Icon">
+          <a href="/admin/managePost.php">
+            <img src="../images/assets/manage-icon.png" alt="Manage Posts Icon">
             Manage Posts
+          </a>
+        </li><li>
+          <a href="/logout.php">
+            Log Out
           </a>
         </li>
       </ul>

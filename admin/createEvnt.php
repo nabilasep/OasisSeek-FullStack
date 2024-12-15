@@ -1,65 +1,77 @@
 <?php
 
 if (!session_id())
-session_start();
+  session_start();
 
 
 include_once __DIR__ . "/../database/database.php";
-include_once __DIR__ ."/../middleware/middleware.php";
+include_once __DIR__ . "/../middleware/middleware.php";
 isLoggedIn();
 isAdmin();
 
 
-if(isset($_POST["create"])){
-    $name = $_POST["name"];
-    $title = $_POST["title"];
-    $description = $_POST["description"];
-    $location = $_POST["location"];
-    $date = $_POST["date"];
-    $time = $_POST["time"];
-    $banner = "";
+if (isset($_POST["create"])) {
+  $name = $_POST["name"];
+  $title = $_POST["title"];
+  $description = $_POST["description"];
+  $location = $_POST["location"];
+  $date = $_POST["date"];
+  $time = $_POST["time"];
+  $banner = "";
 
-    $pathdir = "/../images/events";
+  $pathdir = "/../images/events";
 
-    if(isset($_FILES["banner"]) && $_FILES["banner"]["error"] === UPLOAD_ERR_OK){
-        $photo_tmp_path = $_FILES['banner']['tmp_name'];
-        $photo_extension = pathinfo($_FILES['banner']['name'], PATHINFO_EXTENSION);
-        $photo_filename = uniqid() .'.'. $photo_extension;
-        $photo_path = $pathdir . $photo_filename;
+  try {
 
-        if(move_uploaded_file($photo_tmp_path, $photo_path)){
-            $banner =  $photo_filename;
-        }else {
-            echo'<script>alert("Error Uploading banner photo");
-            location.replace("/admin/createEvnt.php");
-            </script>';
+    mysqli_begin_transaction($dbs);
 
-        }
+    if (isset($_FILES["banner"]) && $_FILES["banner"]["error"] === UPLOAD_ERR_OK) {
+      $photo_tmp_path = $_FILES['banner']['tmp_name'];
+      $photo_extension = pathinfo($_FILES['banner']['name'], PATHINFO_EXTENSION);
+      $photo_filename = uniqid() . '.' . $photo_extension;
+      $photo_path = __DIR__ . '/../images/events/' . $photo_filename; // Corrected path
+
+      if (move_uploaded_file($photo_tmp_path, $photo_path)) {
+        $banner = $photo_filename;
+      } else {
+        echo '<script>alert("Error Uploading banner photo"); location.replace("/admin/createEvnt.php"); </script>';
+        exit();
+      }
     }
 
-    $query = "INSERT INTO events (name,title,description,location,date,time,banner) VALUES (?,?,?,?,?,?,?)";
+    $query = "INSERT INTO events (name, title, description, location, date, time, banner) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $dbs->prepare($query);
-    $stmt->bind_param("sssssss", $name, $title, $description, $location, $date, $time, $baner);
+    $stmt->bind_param("sssssss", $name, $title, $description, $location, $date, $time, $banner); // Fixed variable name
     $stmt->execute();
+    mysqli_commit($dbs);
 
+    echo "<script>
+    alert('Event added successfully');
+    location.replace('/admin/manageEvnt.php');
+  </script>";
+
+  } catch (Exception $err) {
+    mysqli_rollback($dbs);
+    echo "<script>alert('error $err')</script>";
+  }
 }
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <?php include_once __DIR__ . "/../template/meta.php"; ?>
-    <title>Create Event - OasisSeek</title>
-    <link rel="stylesheet" type="text/css" href="/../css/styles.css" />
-    <style>
-    
-    .form-section {
+  <?php include_once __DIR__ . "/../template/meta.php"; ?>
+  <title>Create Event - OasisSeek</title>
+  <link rel="stylesheet" type="text/css" href="../images/assets/styles.css" />
+  <style>
+    .form-container {
       margin-top: 31px;
       width: 655px;
       max-width: 100%;
-    } 
-    
+    }
+
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -67,7 +79,7 @@ if(isset($_POST["create"])){
       margin-top: 6px;
       margin-bottom: 30px;
     }
-    
+
     .form-label {
       font-family: 'Sora', sans-serif;
       font-size: 14px;
@@ -86,13 +98,13 @@ if(isset($_POST["create"])){
       width: 100%;
       height: 30px;
     }
-    
+
     .datetime-container {
       display: flex;
       gap: 30px;
       margin-top: 23px;
     }
-    
+
     .date-input,
     .time-input {
       flex: 1;
@@ -110,7 +122,7 @@ if(isset($_POST["create"])){
       width: 100%;
       margin-bottom: 20px;
     }
-  
+
 
     .upload-container {
       border-radius: 5px;
@@ -159,7 +171,7 @@ if(isset($_POST["create"])){
       height: 32px;
     }
 
-    
+
     .submit-button {
       border-radius: 5px;
       background-color: rgba(115, 76, 16, 1);
@@ -178,13 +190,13 @@ if(isset($_POST["create"])){
       cursor: pointer;
       border-style: none;
     }
-    
+
     .submit-icon {
       aspect-ratio: 1;
       object-fit: contain;
       width: 14px;
     }
-    
+
     .visually-hidden {
       position: absolute;
       width: 1px;
@@ -195,118 +207,114 @@ if(isset($_POST["create"])){
       clip: rect(0, 0, 0, 0);
       border: 0;
     }
-    
+
     @media (max-width: 991px) {
       .dashboard-container {
         padding: 0 20px;
       }
-      
+
       .sidebar-container {
         margin-top: 40px;
       }
-      
+
       .main-content {
         padding: 0 20px 100px;
       }
-      
+
       .form-grid {
         grid-template-columns: 1fr;
       }
-      
+
       .datetime-container {
         flex-direction: column;
         gap: 20px;
       }
-      
+
     }
   </style>
 
 </head>
+
 <body>
-    <?php include_once __DIR__ . "/../template/navbarAdm.php"; ?>
 
-        <!-- ======= MAIN DASHBOARD ========  -->
-        <div class="main-dashboard">
-        <div class="dashboard">
+  <!-- ======= MAIN DASHBOARD ========  -->
+  <div class="main-dashboard">
+    <div class="dashboard">
+      <?php include_once __DIR__ . "/../template/navbarAdm.php"; ?>
 
-        <!-- ===== Header =======  -->
-        <header class="dashboard-header">
-          <h1 class="page-title-dashboard">Add Event</h1>
-          <div class="user-profile-dashboard">
-            <img
-              class="profile-icon-dashboard"
-              src="../assets/profile-admin.png"
-              alt="User profile"
-            />
-            <div class="profile-text-dashboard">Admin</div>
-          </div>
-        </header>
+      <!-- ===== Header =======  -->
+      <header class="dashboard-header">
+        <h1 class="page-title-dashboard">Add Event</h1>
+        <div class="user-profile-dashboard">
+          <img class="profile-icon-dashboard" src="../assets/profile-admin.png" alt="User profile" />
+          <div class="profile-text-dashboard">Admin</div>
+        </div>
+      </header>
 
-         <!-- ===== Konten Posts =======  -->
-         <div class="dashboard-content">
-          <form>
-            <div class="form-grid">
-    
-    <div class="form-container">
-        <h1>Create Event</h1>
-        <?php if ($message): ?>
-            <p><?= htmlspecialchars($message); ?></p>
-        <?php endif; ?>
-        <form method="POST" enctype="multipart/form-data">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
+      <!-- ===== Konten Posts =======  -->
+      <div class="dashboard-content">
+        <form method="post" enctype="multipart/form-data">
+          <div class="form-grid">
 
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required>
+            <div class="form-container">
+              <h1>Create Event</h1>
 
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" required></textarea>
+              <form method="post" enctype="multipart/form-data">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
 
-            <label for="location">Location:</label>
-            <input type="text" id="location" name="location" required>
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
 
-            <label for="date">Date:</label>
-            <input type="date" id="date" name="date" required>
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required></textarea>
 
-            <label for="time">Time:</label>
-            <input type="time" id="time" name="time" required>
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" required>
 
-            <label for="banner">Banner:</label>
-            <input type="file" id="banner" name="banner" accept="image/*" required>
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
 
-            <button type="submit" name="create">Create Event</button>
-        </form>
-    </div>
+                <label for="time">Time:</label>
+                <input type="time" id="time" name="time" required>
 
-    <script>
-    // preview thumbnile
-    function updateThumbnailPreview(event) {
-      const previewContainer = document.getElementById('thumbnail-preview');
-      const files = event.target.files;
+                <label for="banner">Banner:</label>
+                <input type="file" id="banner" name="banner" required>
 
-      // hapus previous content
-      previewContainer.innerHTML = '';
+                <button type="submit" name="create">Create Event</button>
+              </form>
+            </div>
 
-      if (files && files[0]) {
-        const file = files[0];
+            <script>
+              // preview thumbnile
+              function updateThumbnailPreview(event) {
+                const previewContainer = document.getElementById('thumbnail-preview');
+                const files = event.target.files;
 
-        // preview icon
-        const icon = document.createElement('img');
-        icon.src = '../assets/attach-icon.png'; // Replace with the attach icon URL
-        icon.alt = 'Attach Icon';
-        icon.className = 'preview-icon';
+                // hapus previous content
+                previewContainer.innerHTML = '';
 
-        // tambah nama file
-        const fileName = document.createElement('span');
-        fileName.textContent = file.name;
+                if (files && files[0]) {
+                  const file = files[0];
 
-        // tambah ke container
-        previewContainer.appendChild(icon);
-        previewContainer.appendChild(fileName);
-      }
-    }
-</script>
+                  // preview icon
+                  const icon = document.createElement('img');
+                  icon.src = '../assets/attach-icon.png'; // Replace with the attach icon URL
+                  icon.alt = 'Attach Icon';
+                  icon.className = 'preview-icon';
 
-    
+                  // tambah nama file
+                  const fileName = document.createElement('span');
+                  fileName.textContent = file.name;
+
+                  // tambah ke container
+                  previewContainer.appendChild(icon);
+                  previewContainer.appendChild(fileName);
+                }
+              }
+            </script>
+
+
 </body>
+
 </html>

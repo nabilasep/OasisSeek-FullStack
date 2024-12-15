@@ -99,6 +99,7 @@ if (isset($_POST["Save"])) {
         .main-content-profile {
         flex: 1;
         padding: 85px 140px;
+        margin-top: 50px; 
         }
         
         .profile-section {
@@ -356,7 +357,7 @@ if (isset($_POST["Save"])) {
                         </div>
                         <div class="form-actions-profile">
                             <input type="submit" name="Save" class="btn-primary-profile" value="Save" />
-                            <a href="/logout.php">Log Out</a>
+                            <a class="btn-primary-profile" href="/logout.php">Log Out</a>
                         </div>
 
                         <!-- ======== UPLOAD FOTO PROFILE ======== -->
@@ -390,7 +391,7 @@ if (isset($_POST["Save"])) {
                                     <p class="bookmark-description"><?= htmlspecialchars($bookmark['description']); ?></p>
                                 </div>
                                 <button type="button" class="bookmark-action" aria-label="Remove bookmark">
-                                    <img src="../assets/bookmark-dashboard.png"
+                                    <img src="../images/assets/bookmark-dashboard.png"
                                         alt="" class="action-icon" />
                                 </button>
                             </article>

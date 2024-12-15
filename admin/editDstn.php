@@ -21,16 +21,34 @@ $data = $stmt->get_result();
 $destination = $data->fetch_array(MYSQLI_ASSOC);
 $stmt->close();
 
-if (isset($_POST["create"])) {
+
+
+if (isset($_POST["update"])) {
     $name = $_POST["name"] ?? "";
     $title = $_POST["title"] ?? "";
     $description = $_POST["description"] ?? "";
 
-    $query = "INSERT INTO destinations (name, title, description) VALUES (?, ?, ?)";
+    try {
+    $query = "UPDATE destinations SET name = ?,  title = ?, description = ? WHERE des_id =?"; 
     $stmt = $dbs->prepare($query);
-    $stmt->bind_param("sss", $name, $title, $description);
+    $stmt->bind_param("sssi", $name, $title, $description, $des_id);
     $stmt->execute();
     $des_id = $dbs->insert_id;
+
+        // Success message or redirect
+        echo "<script>
+        alert('Places berhasil di update');
+        location.replace('/admin/manageDstn.php');
+        </script>";
+        exit();
+    } catch (Exception $e) {
+        // Handle the error
+        echo "<script>
+        alert('Places gagal di update');
+        location.replace('/admin/manageDstn.php');
+        </script>";
+        exit();
+    }
 
 }
 ?>
@@ -41,6 +59,7 @@ if (isset($_POST["create"])) {
 <head>
     <?php include_once __DIR__ . "/../template/meta.php"; ?>
     <title>Create Destination</title>
+    <link rel="stylesheet" href="../images/assets/styles.css">
     <style>
         .form-section {
             margin-top: 31px;
@@ -220,26 +239,8 @@ if (isset($_POST["create"])) {
 
 <body>
 
-    <?php include_once __DIR__ . "/../template/navbarAdm.php"; ?>
     <div class="container-dashboard">
-        <!-- ======= SIDEBAR DASHBOARD ========  -->
-        <div class="sidebar-dashboard">
-            <div class="logo-dashboard">OasisSeek</div>
-            <ul class="menu">
-                <li>
-                    <a href="dashboard-MAIN.html">
-                        <img src="../assets/dashboard-icon.png" alt="Dashboard Icon">
-                        Dashboard
-                    </a>
-                </li>
-                <li>
-                    <a href="dashboard-POST.html">
-                        <img src="../assets/manage-icon.png" alt="Manage Posts Icon">
-                        Manage Posts
-                    </a>
-                </li>
-            </ul>
-        </div>
+        <?php include_once __DIR__ . "/../template/navbarAdm.php"; ?>
 
         <!-- ===== Konten Posts =======  -->
         <div class="dashboard-content">
@@ -255,33 +256,12 @@ if (isset($_POST["create"])) {
                                 required><?= htmlspecialchars($destination["description"]) ?></textarea> </div>
                         <div> <label for="location">Location</label> <input type="text" name="location" id="location"
                                 class="form-input" required> </div>
-                        <div class="datetime-container">
-                            <div class="date-input"> <label for="date">Date</label> <input type="date" name="date"
-                                    id="date" class="form-input" required> </div>
-                            <div class="time-input"> <label for="time">Time</label> <input type="time" name="time"
-                                    id="time" class="form-input" required> </div>
-                        </div>
-                        <div> <label for="banner">Banner:</label>
-                            <div class="upload-container" role="button" tabindex="0"
-                                onclick="document.getElementById('thumbnail-upload').click()">
-                                <div id="thumbnail-preview"> <img src="../assets/upload.png" alt=""
-                                        class="upload-icon" /> <span>Click to upload photo</span> </div> <input
-                                    type="file" name="banner" id="thumbnail-upload" class="visually-hidden"
-                                    accept="image/*" aria-label="Upload banner"
-                                    onchange="updateThumbnailPreview(event)" />
-                            </div>
-                        </div>
                         <div> <input type="submit" name="update" value="Update"> </div>
                     </div>
                 </form>
             </div>
-            <script> function updateThumbnailPreview(event) 
-            { 
-                const [file] = event.target.files; if (file) { const preview = document.getElementById('thumbnail-preview'); preview.innerHTML = `<img src="${URL.createObjectURL(file)}" alt="Thumbnail preview" class="upload-icon">`; 
-
-            } 
-        }
-    </script>
+        </div>
+    </div>
 </body>
 
 </html>

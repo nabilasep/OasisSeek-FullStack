@@ -351,11 +351,11 @@ if(isset($_POST['register'])){
 <body>
 <div class="signup-container">
     <div class="signup-wrapper">
-      <img class="background-image" src="../assets/background.png" alt="" loading="lazy" />
+      <img class="background-image" src="/images/assets/background.png" alt="" loading="lazy" />
       <div class="content-container">
         <div class="content-grid">
           <div class="image-column">
-            <img class="hero-image" src="../assets/hero-log-sign.png" alt="Signup illustration" loading="lazy" />
+            <img class="hero-image" src="/images/assets/hero-log-sign.png" alt="Signup illustration" loading="lazy" />
           </div>
           <div class="form-column">
             <form class="signup-form" method="POST" action="">
@@ -405,7 +405,7 @@ if(isset($_POST['register'])){
               </div>
               
               <!-- ======== SUBMIT DATA SIGN-UP ======== -->
-              <input name="register" type="submit" class="submit-button">Sign-up</input>
+              <input name="register" type="submit" value="Sign-In" class="submit-button"/>
             </form>
           </div>
         </div>

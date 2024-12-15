@@ -46,6 +46,6 @@ CREATE TABLE bookmark(
     des_id      INT             NOT NULL,
     username    VARCHAR(30)     NOT NULL,
 
-    FOREIGN KEY(des_id) REFERENCES destinations(des_id),
-    FOREIGN KEY(username) REFERENCES users(username)
+    FOREIGN KEY(des_id) REFERENCES destinations(des_id) ON DELETE CASCADE,
+    FOREIGN KEY(username) REFERENCES users(username) ON DELETE CASCADE
 );

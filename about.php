@@ -22,10 +22,10 @@ include_once __DIR__ . "/database/database.php";
 
     <!-- ======== BANNER HERO ABOUT ======== -->
     <section class="hero-section-about">
-        <img src="../assets/about-banner.png" alt="About section hero image" class="hero-image-about" />
+        <img src="/images/assets/about-banner.png" alt="About section hero image" class="hero-image-about" />
         <h1 class="hero-title-about">About</h1>
         <p class="hero-description-about">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus venenatis ornare magna, sit amet pulvinar ex mollis ut. Curabitur rutrum nec nisi in ultricies. Quisque vulputate ligula dictum lectus porta, eu iaculis risus sagittis. Nam vitae tortor vitae erat faucibus rhoncus. Nulla nec ante semper, interdum massa quis, feugiat turpis. In nunc lacus, iaculis et nisl sed, fermentum fermentum libero. Integer nec vulputate turpis. Donec non massa est. Vestibulum tincidunt nulla leo, sed convallis augue euismod nec. Nulla vel eros nibh. Donec cursus sem vel vulputate interdum. Nulla a vehicula ex. Morbi sit amet congue arcu, a ultrices tellus. Cras ac aliquam mi. Donec at turpis sit amet dui tincidunt molestie.
+          <b>OasisSeek</b> is your ultimate guide to discovering breathtaking travel destinations and upcoming events. Explore a curated collection of exotic spots and must-visit attractions tailored for your next adventure. Stay updated with our event highlights, featuring cultural festivals, thrilling activities, and local experiences happening near your chosen destinations. Whether you're planning a quick getaway or a dream vacation, OasisSeek makes it effortless to find inspiration and create unforgettable memories.
         </p>
       </section>
     
@@ -39,15 +39,15 @@ include_once __DIR__ . "/database/database.php";
             </p>
             <div class="contact-details-about">
               <div class="contact-item-about">
-                <img src="../assets/loc-icon-about.png" alt="Location icon" class="contact-icon-about" />
+                <img src="/images/assets/loc-icon-about.png" alt="Location icon" class="contact-icon-about" />
                 <span>Blater, Purbalingga</span>
               </div>
               <div class="contact-item-about">
-                <img src="../assets/call-icon-about.png" alt="Phone icon" class="contact-icon-about" />
+                <img src="/images/assets/call-icon-about.png" alt="Phone icon" class="contact-icon-about" />
                 <span>+62 8123 4567 890</span>
               </div>
               <div class="contact-item-about">
-                <img src="../assets/mail-icon-about.png" alt="Email icon" class="contact-icon-about" />
+                <img src="/images/assets/mail-icon-about.png" alt="Email icon" class="contact-icon-about" />
                 <span>oasisseek@gmail.com</span>
               </div>
             </div>
@@ -56,15 +56,15 @@ include_once __DIR__ . "/database/database.php";
               <h3 class="social-title-about">Follow us on social media:</h3>
               <div class="social-links-about">
                 <div class="social-item-about">
-                  <img src="../assets/insta-icon-about.png" alt="Twitter icon" class="social-icon-about" />
+                  <img src="/images/assets/insta-icon-about.png" alt="Twitter icon" class="social-icon-about" />
                   <span>@oasisseek1</span>
                 </div>
                 <div class="social-item-about">
-                  <img src="../assets/facebook-icon-about.png" alt="Facebook icon" class="social-icon-about" />
+                  <img src="/images/assets/facebook-icon-about.png" alt="Facebook icon" class="social-icon-about" />
                   <span>OasisSeek Official</span>
                 </div>
                 <div class="social-item-about">
-                  <img src="../assets/tiktok-icon-about.png" alt="Instagram icon" class="social-icon-about" />
+                  <img src="/images/assets/tiktok-icon-about.png" alt="Instagram icon" class="social-icon-about" />
                   <span>@oasisseek1</span>
                 </div>
               </div>

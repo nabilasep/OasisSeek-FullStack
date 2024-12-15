@@ -10,10 +10,42 @@ isLoggedIn();
 isAdmin();
 
 $query = "SELECT event_id, name, date, banner FROM events GROUP BY event_id ORDER BY event_id DESC";
-$stmt = $dbs->prepare(($query));
+$stmt = $dbs->prepare($query);
 $stmt->execute();
 $data = $stmt->get_result();
-$event = $data->fetch_array(MYSQLI_ASSOC);
+$events = $data->fetch_all(MYSQLI_ASSOC);
+
+if (isset($_POST['delete'])) {
+
+    $stmt = $dbs->prepare('SELECT event_id,banner FROM events WHERE event_id = ?');
+    $stmt->bind_param('i', $_POST['event_id']);
+    $stmt->execute();
+    $data = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+
+    if ($data) {
+
+        $pathdir = __DIR__ . '/../images/events/';
+
+        if (file_exists($pathdir . $data["banner"])) {
+            unlink($pathdir . $data["banner"]);
+        }
+
+        $stmt = $dbs->prepare("DELETE FROM events WHERE event_id = ?");
+        $stmt->bind_param("i", $data["event_id"]);
+        $stmt->execute();
+        $stmt->close();
+        echo "<script>
+        alert('delete successfully');
+        location.replace('/admin/manageEvnt.php');
+      </script>";
+    } else {
+        echo "<script>
+                alert('ERROR: Events not found');
+                location.replace('/admin/manageEvnt.php');
+              </script>";
+    }
+}
 
 ?>
 
@@ -23,6 +55,7 @@ $event = $data->fetch_array(MYSQLI_ASSOC);
 <head>
     <?php include_once __DIR__ . "/../template/meta.php"; ?>
     <title>Document</title>
+    <link rel="stylesheet" href="../images/assets/styles.css">
     <style>
         .places-grid {
             display: flex;
@@ -153,11 +186,12 @@ $event = $data->fetch_array(MYSQLI_ASSOC);
 
 <body>
 
-<?php include_once __DIR__ . "/../template/navbarAdm.php"; ?>
+    <div class="container-dashboard">
 
+        <?php include_once __DIR__ . "/../template/navbarAdm.php"; ?>
 
-    <div class="container-dashboard"> <!-- ======= SIDEBAR DASHBOARD ======== -->
-        <div class="sidebar-dashboard">
+        <!-- ======= SIDEBAR DASHBOARD ======== -->
+        <!-- <div class="sidebar-dashboard">
             <div class="logo-dashboard">OasisSeek</div>
             <ul class="menu">
                 <li> <a href="dashboard-MAIN.html"> <img src="../assets/dashboard-icon.png" alt="Dashboard Icon">
@@ -165,38 +199,43 @@ $event = $data->fetch_array(MYSQLI_ASSOC);
                 <li> <a href="dashboard-POST.html"> <img src="../assets/manage-icon.png" alt="Manage Posts Icon"> Manage
                         Posts </a> </li>
             </ul>
-        </div> <!-- ======= MAIN DASHBOARD ======== -->
+        </div> ======= MAIN DASHBOARD ======== -->
         <div class="main-dashboard">
             <div class="dashboard"> <!-- ===== Header ======= -->
                 <header class="dashboard-header">
                     <h1 class="page-title-dashboard">Events</h1>
                     <div class="user-profile-dashboard"> <img class="profile-icon-dashboard"
-                            src="../assets/profile-admin.png" alt="User profile" />
+                            src="../images/assets/profile-admin.png" alt="User profile" />
                         <div class="profile-text-dashboard">Admin</div>
                     </div>
                 </header> <!-- ===== Konten ======= -->
                 <div class="dashboard-content">
-                    <div class="places-grid"> <?php foreach ($events as $data): ?>
+                    <div class="places-grid">
+                        <?php foreach ($events as $data): ?>
                             <article class="place-card">
-                                <div class="image-container"> <img src="<?= htmlspecialchars($data["banner"]); ?>"
+                                <div class="image-container"> <img src="/images/events/<?= $data["banner"]; ?>"
                                         alt="Event banner" class="place-image" />
-                                    <div class="action-buttons"> <!-- Edit Button --> <button class="action-icon"
-                                            aria-label="Edit event"
-                                            onclick="window.location.href='/admin/editEvnt.php?id=<?= htmlspecialchars($data["event_id"]); ?>';">
-                                            ✏️ </button> <!-- Delete Button -->
-                                        <form action="" method="post"> <input type="hidden" name="event_id"
-                                                value="<?= htmlspecialchars($data["event_id"]); ?>"> <button
-                                                class="action-icon" type="submit" name="delete"
-                                                aria-label="Delete event">❌</button> </form>
+                                    <div class="action-buttons"> 
+                                        <!-- Edit Button --> 
+                                         <button class="action-icon"
+                                            aria-label="Edit event" onclick="window.location.href='/admin/editEvnt.php?id=<?= htmlspecialchars($data["event_id"]); ?>';">
+                                            ✏️ </button> 
+                                            <!-- Delete Button -->
+                                        <form action="" method="post">
+                                            <input type="hidden" name="event_id" value="<?= $data["event_id"]; ?>">
+                                            <button class="action-icon" type="submit" name="delete"
+                                                aria-label="Delete event">❌</button>
+                                        </form>
                                     </div>
                                 </div>
                                 <div class="card-content">
                                     <div class="content-wrapper">
-                                        <h2 class="place-title"><?= htmlspecialchars($data["name"]); ?></h2> <time
-                                            class="place-date"><?= htmlspecialchars($data["date"]); ?></time>
+                                        <h2 class="place-title"><?= $data["name"]; ?></h2>
+                                        <time class="place-date"><?= $data["date"]; ?></time>
                                     </div>
                                 </div>
-                            </article> <?php endforeach; ?>
+                            </article>
+                        <?php endforeach; ?>
                     </div> <!-- Add Post Button --> <button class="add-button"
                         onclick="window.location.href='/admin/createEvnt.php';"> Add Post </button>
                 </div>
