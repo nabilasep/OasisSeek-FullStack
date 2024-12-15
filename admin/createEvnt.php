@@ -52,8 +52,200 @@ if(isset($_POST["create"])){
     <?php include_once __DIR__ . "/../template/meta.php"; ?>
     <title>Create Event - OasisSeek</title>
     <link rel="stylesheet" type="text/css" href="/../css/styles.css" />
+    <style>
+    
+    .form-section {
+      margin-top: 31px;
+      width: 655px;
+      max-width: 100%;
+    } 
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      margin-top: 6px;
+      margin-bottom: 30px;
+    }
+    
+    .form-label {
+      font-family: 'Sora', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 50px;
+    }
+
+    .form-input {
+      border-radius: 5px;
+      background-color: rgba(249, 250, 251, 1);
+      color: rgba(0, 0, 0, 0.5);
+      letter-spacing: 0.3px;
+      padding: 9px 18px;
+      font: 400 12px/2 'Poppins', sans-serif;
+      border: 1px solid rgba(115, 76, 16, 1);
+      width: 100%;
+      height: 30px;
+    }
+    
+    .datetime-container {
+      display: flex;
+      gap: 30px;
+      margin-top: 23px;
+    }
+    
+    .date-input,
+    .time-input {
+      flex: 1;
+    }
+
+    .form-textarea {
+      border-radius: 5px;
+      background-color: rgba(249, 250, 251, 1);
+      color: rgba(0, 0, 0, 0.5);
+      letter-spacing: 0.3px;
+      padding: 9px 17px;
+      min-height: 100px;
+      font: 400 12px/2 Poppins, sans-serif;
+      border: 1px solid rgba(115, 76, 16, 1);
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  
+
+    .upload-container {
+      border-radius: 5px;
+      background-color: rgba(249, 250, 251, 1);
+      display: flex;
+      margin-top: 11px;
+      flex-direction: column;
+      align-items: center;
+      color: rgba(115, 76, 16, 1);
+      letter-spacing: 0.3px;
+      justify-content: center;
+      padding: 26px 80px;
+      font: 400 12px/2 Poppins, sans-serif;
+      border: 1px dashed rgba(115, 76, 16, 1);
+    }
+
+    #thumbnail-preview,
+    #gallery-preview {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .file-preview {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #000;
+    }
+
+    .preview-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .visually-hidden {
+      display: none;
+    }
+
+    .upload-icon {
+      width: 32px;
+      height: 32px;
+    }
+
+    
+    .submit-button {
+      border-radius: 5px;
+      background-color: rgba(115, 76, 16, 1);
+      align-self: end;
+      display: flex;
+      margin-top: 40px;
+      min-height: 42px;
+      align-items: center;
+      gap: 5px;
+      color: var(--white, #fff);
+      text-align: center;
+      justify-content: center;
+      padding: 11px 20px;
+      font: 13px 'Poppins', sans-serif;
+      border: none;
+      cursor: pointer;
+      border-style: none;
+    }
+    
+    .submit-icon {
+      aspect-ratio: 1;
+      object-fit: contain;
+      width: 14px;
+    }
+    
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+    
+    @media (max-width: 991px) {
+      .dashboard-container {
+        padding: 0 20px;
+      }
+      
+      .sidebar-container {
+        margin-top: 40px;
+      }
+      
+      .main-content {
+        padding: 0 20px 100px;
+      }
+      
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .datetime-container {
+        flex-direction: column;
+        gap: 20px;
+      }
+      
+    }
+  </style>
+
 </head>
 <body>
+    <?php include_once __DIR__ . "/../template/navbarAdm.php"; ?>
+
+        <!-- ======= MAIN DASHBOARD ========  -->
+        <div class="main-dashboard">
+        <div class="dashboard">
+
+        <!-- ===== Header =======  -->
+        <header class="dashboard-header">
+          <h1 class="page-title-dashboard">Add Event</h1>
+          <div class="user-profile-dashboard">
+            <img
+              class="profile-icon-dashboard"
+              src="../assets/profile-admin.png"
+              alt="User profile"
+            />
+            <div class="profile-text-dashboard">Admin</div>
+          </div>
+        </header>
+
+         <!-- ===== Konten Posts =======  -->
+         <div class="dashboard-content">
+          <form>
+            <div class="form-grid">
     
     <div class="form-container">
         <h1>Create Event</h1>
@@ -85,6 +277,35 @@ if(isset($_POST["create"])){
             <button type="submit" name="create">Create Event</button>
         </form>
     </div>
+
+    <script>
+    // preview thumbnile
+    function updateThumbnailPreview(event) {
+      const previewContainer = document.getElementById('thumbnail-preview');
+      const files = event.target.files;
+
+      // hapus previous content
+      previewContainer.innerHTML = '';
+
+      if (files && files[0]) {
+        const file = files[0];
+
+        // preview icon
+        const icon = document.createElement('img');
+        icon.src = '../assets/attach-icon.png'; // Replace with the attach icon URL
+        icon.alt = 'Attach Icon';
+        icon.className = 'preview-icon';
+
+        // tambah nama file
+        const fileName = document.createElement('span');
+        fileName.textContent = file.name;
+
+        // tambah ke container
+        previewContainer.appendChild(icon);
+        previewContainer.appendChild(fileName);
+      }
+    }
+</script>
 
     
 </body>

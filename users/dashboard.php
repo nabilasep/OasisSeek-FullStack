@@ -86,8 +86,241 @@ if (isset($_POST["Save"])) {
 <head>
     <meta charset="UTF-8" />
     <title>Profile - OasisSeek</title>
-    <link rel="stylesheet" type="text/css" href="../css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="../images/assets/styles.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .dashboard-profile {
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        }
+        
+        .main-content-profile {
+        flex: 1;
+        padding: 85px 140px;
+        }
+        
+        .profile-section {
+        background: #bd874f;
+        border-radius: 20px;
+        color: #fff;
+        padding: 60px 55px;
+        }
+        
+        .profilesection-title {
+        font: 28px 'Poppins', sans-serif;
+        font-weight: bolder;
+        margin: 0;
+        }
+        
+        .profilesection-subtitle {
+        font: 16px 'Poppins', sans-serif;
+        font-weight: lighter;
+        margin: 2px 0 42px;
+        }
+        
+        .profile-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 60px;
+        }
+        
+        .profile-form {
+        display: flex;
+        flex-direction: column;
+        gap: 42px;
+        }
+        
+        .form-group-profile {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        }
+        
+        .form-label-profile {
+        color: #fff;
+        font: 500 16px 'Poppins', sans-serif;
+        text-align: right;
+        width: 89px;
+        }
+        
+        .form-input-profile {
+        background: #fff;
+        border: none;
+        border-radius: 10px;
+        color: #000;
+        flex: 1;
+        font: 500 14px 'Poppins', sans-serif;
+        padding: 7px;
+        }
+        
+        .form-actions-profile {
+        display: flex;
+        gap: 17px;
+        margin-top: 20px;
+        }
+        
+        .btn-primary-profile {
+        background: #734c10;
+        border: none;
+        border-radius: 24px;
+        color: #f8f3ed;
+        cursor: pointer;
+        font: 550 14px 'Poppins', sans-serif;
+        padding: 8px 20px;
+        }
+
+        .btn-primary-profile:hover {
+        background: #bd874f; 
+        border: 2px solid #f8f3ed; 
+        color: #f8f3ed; 
+        }
+        
+        .profile-picture-section {
+        background: #fff;
+        border-radius: 10px;
+        padding: 50px 45px;
+        text-align: center;
+        margin: 0px 20px;
+        }
+        
+        .current-profile-picture {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        margin-bottom: 20px;
+        }
+        
+        .upload-btn-profile {
+        border: 1px solid #000;
+        background: none;
+        cursor: pointer;
+        font: 300 12px 'Poppins', sans-serif;
+        padding: 13px 15px;
+        margin-bottom: 12px;
+        }
+        
+        .upload-info-profile {
+        color: #000;
+        font: 300 14px 'Poppins', sans-serif;
+        margin: 10px 0;
+        }
+        
+        .bookmarks-section {
+            display: flex;
+            flex-direction: column;
+            margin-top: 100px;
+        }
+
+        .bookmark-card {
+            background: #fff;
+            border-radius: 24px;
+            display: flex;
+            gap: 20px;
+            padding: 19px 21px;
+            margin: 15px 20px;
+            align-items: center;
+            margin-top: 0;
+        }
+
+        .bookmark-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 24px;
+            object-fit: cover;
+        }
+
+        .bookmark-content {
+            flex: 1;
+        }
+
+        .bookmark-title {
+            font: 400 24px 'Sora', sans-serif;
+            letter-spacing: 3.2px;
+            margin: 0;
+            color: black;
+        }
+
+        .bookmark-description {
+            font: 300 12px 'Sora', sans-serif;
+            margin-bottom: 0;
+            color: black;
+            /* Membatasi teks ke 2 baris */
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .bookmark-action {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: transform 0.3s ease; 
+        }
+
+        .bookmark-action:hover {
+            transform: scale(1.1);
+        }
+
+        .action-icon {
+            width: 50px;
+            height: 50px;
+            transition: opacity 0.3s ease; 
+        }
+
+        .bookmark-action:hover .action-icon {
+            opacity: 0.7; 
+        }
+
+        
+        @media (max-width: 991px) {
+        .main-content {
+            padding: 40px 20px;
+        }
+        
+        .profile-section {
+            padding: 40px 20px;
+        }
+        
+        .profile-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .form-group {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .form-label {
+            text-align: left;
+            width: auto;
+        }
+        
+        .profile-picture-section {
+            padding: 30px 20px;
+        }
+        
+        .bookmark-card {
+        flex-direction: column; 
+        align-items: center; 
+        text-align: center;
+        }
+
+        .bookmark-image {
+            width: 100px;
+            height: 100px;
+        }
+
+        .bookmark-content {
+            text-align: center; 
+        }
+        }
+    </style>
 </head>
 
 <body>
@@ -109,7 +342,7 @@ if (isset($_POST["Save"])) {
                         <div class="form-group-profile">
                             <label for="username" class="form-label-profile">Username</label>
                             <input type="text" id="username" name="username" class="form-input-profile"
-                                value="<?= htmlspecialchars($user['username']); ?>" required />
+                                value="<?= htmlspecialchars($user['username']); ?>" readonly />
                         </div>
                         <div class="form-group-profile">
                             <label for="name" class="form-label-profile">Name</label>
@@ -128,7 +361,7 @@ if (isset($_POST["Save"])) {
 
                         <!-- ======== UPLOAD FOTO PROFILE ======== -->
                         <div class="profile-picture-section">
-                            <img src="<?= htmlspecialchars($user['photo'] ?? 'https://cdn.builder.io/api/v1/image/assets/TEMP/71a2fb7aa070218e7a9b043b4c0095d72c1d71e5603b41db3ab9f4a92d041727?placeholderIfAbsent=true&apiKey=9813aeb455d842cea0d227df786a7f1d'); ?>"
+                            <img src="<?= htmlspecialchars($user['photo'] ?? "../assets/update-profile.png"); ?>"
                                 alt="User profile picture" class="current-profile-picture">
                             <div class="picture-upload">
                                 <input type="file" id="file-input" name="photo" class="file-input" accept=".jpeg, .png"
@@ -157,7 +390,7 @@ if (isset($_POST["Save"])) {
                                     <p class="bookmark-description"><?= htmlspecialchars($bookmark['description']); ?></p>
                                 </div>
                                 <button type="button" class="bookmark-action" aria-label="Remove bookmark">
-                                    <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/ae785c420c97267ac981f08c07dc55b5e385399d76b7d52d4adf6024d5f0ea12?placeholderIfAbsent=true&apiKey=9813aeb455d842cea0d227df786a7f1d"
+                                    <img src="../assets/bookmark-dashboard.png"
                                         alt="" class="action-icon" />
                                 </button>
                             </article>

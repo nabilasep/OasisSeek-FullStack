@@ -75,7 +75,7 @@ $stmt_check->close();
 <head>
     <meta charset="UTF-8"/>
     <title>Places Each - OasisSeek</title>
-    <link rel="stylesheet" type="text/css" href="css/styles.css"/>
+    <link rel="stylesheet" type="text/css" href="/images/assets/styles.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -90,16 +90,18 @@ $stmt_check->close();
             <img src="/images/destinations/<?= htmlspecialchars($destination['banner']); ?>" alt="Scenic view of <?= htmlspecialchars($destination['name']); ?>" class="hero-image-placeseach"/>
             <div class="hero-content-placeseach">
                 <h1 class="hero-title-placeseach"><?= htmlspecialchars($destination['name']); ?></h1>
+
                 <!-- ====== share & bookmarks ===== -->
                 <div class="social-icons-placeseach">
-                    <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/1a5b77927d2c9a207ab80441ad049d5471fb8745dd1875a1b0991113adc08374?placeholderIfAbsent=true&apiKey=9813aeb455d842cea0d227df786a7f1d"
-                         alt="Share on social media" class="social-icons-placeseach"/>
-                    <form method="POST" action="">
+                    <img src="../assets/share-icon.png" 
+                        alt="Share on social media" 
+                            class="social-icons-placeseach"/>
+                <form method="POST" action="">
                         <input type="hidden" name="bookmark_action" value="<?= $is_bookmarked ? 'remove' : 'add'; ?>">
                         <button type="submit">
-                            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/a0dd4d9bd331673a77e14d9cb571d3363609183ba53792017a218736f117f553?placeholderIfAbsent=true&apiKey=9813aeb455d842cea0d227df786a7f1d"
+                            <img src="../assets/bookmark-icon.png" 
                                  alt="<?= $is_bookmarked ? 'Remove from favorites' : 'Save to favorites'; ?>"
-                                 class="social-icon-placeseach"/>
+                                 class="bookmark-icon-eventeach"/>
                         </button>
                     </form>
                 </div>

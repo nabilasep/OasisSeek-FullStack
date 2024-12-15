@@ -27,7 +27,7 @@ $destinations = getData($dbs, $query);
 <head>
     <meta charset="UTF-8"/>
     <title>Place List - OasisSeek</title>
-    <link rel="stylesheet" type="text/css" href="css/styles.css"/>
+    <link rel="stylesheet" type="text/css" href="/images/assets/styles.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -40,10 +40,10 @@ $destinations = getData($dbs, $query);
 
         <!-- ======== PLACES LIST ======== -->
         <main class="main-content-placelist">
-            <h1 class="section-title-placelist">Places</h1>
-            <p class="section-description-placelist">Make Egypt part of your destination itinerary, adventuring through
-                the deserts and one of the richest farm lands in the world.</p>
+        <h1 class="section-title-placelist">Places</h1>
+        <p class="section-description-placelist">Make Egypt part of your destination itinerary, adventuring through the deserts and one of the richest farm lands in the world.</p>
 
+      <div class="placelist-grid">
             <div class="placelist-grid">
                 <?php foreach ($destinations as $destination): ?>
                     <article class="placelist-card">

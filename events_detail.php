@@ -33,22 +33,21 @@ if (!$event) {
 <head>
     <meta charset="UTF-8"/>
     <title>Event Each - OasisSeek</title>
-    <link rel="stylesheet" type="text/css" href="/css/styles.css"/>
+    <link rel="stylesheet" type="text/css" href="/images/assets/styles.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+    <div class="placeseach-wrapper">
    <!-- ======== HEADER ======== -->
-   <div class="landing-container">
-
    <?php include_once __DIR__. "/template/navbar.php"; ?>
 
   <!-- ======== HERO EVENT-EACH ======== -->
-    <section class="hero-section-eventeach">
+  <section class="hero-section-eventeach">
     <img src="/images/events/<?= htmlspecialchars($event['banner']); ?>" alt="Scenic view of <?= htmlspecialchars($event['name']); ?>" class="hero-content-eventeach"/>
         <h1 class="hero-title-eventeach"><?= htmlspecialchars($event['name']); ?></h1>
         <div class="social-icons-eventeach">
-          <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/aca7b8473ce7bffecac061d6d110d5857879ca071f7925b46bb7be0144274003?placeholderIfAbsent=true&apiKey=9813aeb455d842cea0d227df786a7f1d" alt="" class="social-icon-eventeach" />
-          <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/2a22b5334bb3e00ec4ce5a14eceefa3de094ee014220f6b31c5a0d71d0a4d134?placeholderIfAbsent=true&apiKey=9813aeb455d842cea0d227df786a7f1d" alt="" class="social-icon-eventeach" />
+          <img src="../assets/share-icon.png" alt="" class="share-icon-eventeach"/>
+          <img src="../assets/bookmark-icon.png" alt="" class="bookmark-icon-eventeach"/>
         </div>
       </div>
     </section>
@@ -82,9 +81,6 @@ if (!$event) {
             <div class="info-value-eventeach"><?= htmlspecialchars($event['time']); ?></div>
           </div>
         </div>
-
-        <!-- ======== MAPS EVENT ======== -->
-
       </section>
     </main>
 

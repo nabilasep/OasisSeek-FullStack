@@ -4,7 +4,7 @@ if (!session_id())
 
 
 include_once __DIR__ . "/../database/database.php";
-include_once __DIR__ ."/../middleware/middleware.php";
+include_once __DIR__ . "/../middleware/middleware.php";
 isLoggedIn();
 isAdmin();
 
@@ -38,18 +38,139 @@ $total_postings = $total_destinations + $total_events;
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <?php include_once __DIR__ . "/../template/meta.php";?>
+    <?php include_once __DIR__ . "/../template/meta.php"; ?>
     <title>Statistics - OasisSeek</title>
+    <style>
+        .stats-grid {
+            display: flex;
+            margin-top: 31px;
+            align-items: center;
+            gap: 36px;
+            font-family: Poppins, sans-serif;
+            justify-content: start;
+            flex-wrap: wrap;
+        }
+
+        .stats-card {
+            border-radius: 0;
+            align-self: stretch;
+            display: flex;
+            min-width: 240px;
+            flex-direction: column;
+            width: 327px;
+            margin: auto 0;
+        }
+
+        .card-content {
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            align-items: start;
+            justify-content: center;
+            padding: 31px;
+        }
+
+        @media (max-width: 991px) {
+            .card-content {
+                padding: 0 20px;
+            }
+        }
+
+        .stats-wrapper {
+            display: flex;
+            align-items: end;
+            gap: 23px;
+            justify-content: start;
+        }
+
+        .stats-icon {
+            aspect-ratio: 1;
+            object-fit: contain;
+            object-position: center;
+            width: 73px;
+        }
+
+        .stats-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+        }
+
+        .stats-number {
+            color: black;
+            font-size: 30px;
+            font-family: 'Sora', sans-serif;
+            font-weight: 600;
+        }
+
+        .stats-label {
+            color: rgb(116, 113, 113);
+            font-size: 20px;
+            margin-top: 17px;
+        }
+    </style>
 </head>
+
 <body>
-    <?php include_once __DIR__ . "/../template/navbar.php";?>
+    <div class="container-dashboard">
 
-    <div class="statistics-container">
-        <p>Total Users: <?= htmlspecialchars($total_users); ?></p>
-        <p>Total Post <?= htmlspecialchars($total_postings); ?></p>
+        <?php include_once __DIR__ . "/../template/navbarAdm.php"; ?>
+
+        <!-- ======= MAIN DASHBOARD ========  -->
+        <div class="main-dashboard">
+            <div class="dashboard">
+                <!-- ======= MAIN DASHBOARD ========  -->
+                <div class="main-dashboard">
+                    <div class="dashboard">
+
+                        <!-- ===== Header =======  -->
+                        <header class="dashboard-header">
+                            <h1 class="page-title-dashboard">Dashboard</h1>
+                            <div class="user-profile-dashboard">
+                                <img class="profile-icon-dashboard" src="../assets/profile-admin.png"
+                                    alt="User profile" />
+                                <div class="profile-text-dashboard">Admin</div>
+                            </div>
+                        </header>
+
+                        <!-- ===== Konten Stats ======= -->
+                        <div class="dashboard-content">
+                            <section class="stats-grid" aria-label="Dashboard Statistics">
+                                <div class="stats-card">
+                                    <div class="card-content">
+                                        <div class="stats-wrapper"> <img class="stats-icon"
+                                                src="../assets/stats-icon1.png" alt="Users icon" />
+                                            <div class="stats-info">
+                                                <div class="stats-number"><?= htmlspecialchars($total_users); ?></div>
+                                                <div class="stats-label">Total Users</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="stats-card">
+                                    <div class="card-content">
+                                        <div class="stats-wrapper"> <img class="stats-icon"
+                                                src="../assets/stats-icon2.png" alt="Posts icon" />
+                                            <div class="stats-info">
+                                                <div class="stats-number"><?= htmlspecialchars($total_postings); ?>
+                                                </div>
+                                                <div class="stats-label">Total Posts</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <?php include_once __DIR__ . "/../template/footer.php";?>
 </body>
+
 </html>

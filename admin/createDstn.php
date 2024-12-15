@@ -1,5 +1,6 @@
 <?php
-if (!session_id()) session_start();
+if (!session_id())
+    session_start();
 include_once __DIR__ . "/../database/database.php";
 include_once __DIR__ . "/../middleware/middleware.php";
 isAdmin();
@@ -59,37 +60,249 @@ if (isset($_POST["create"])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <?php include_once __DIR__ . "/../template/meta.php"; ?>
     <title>Create Destination</title>
+    <style>
+    .form-section {
+      display: flex;
+      margin-top: 31px;
+      width: 617px;
+      max-width: 100%;
+      gap: 0px;
+      font-size: 20px;
+      color: #000;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-bottom: 20px;
+
+    }
+    
+    .form-group {
+      display: flex;
+      gap: 25px;
+      font-size: 20px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    
+    .form-label {
+      font-family: 'Sora', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 30px;
+    }
+    
+    .form-input {
+      border-radius: 5px;
+      background-color: rgba(249, 250, 251, 1);
+      color: rgba(0, 0, 0, 0.5);
+      letter-spacing: 0.3px;
+      padding: 9px 18px;
+      font: 400 12px/2 Poppins, sans-serif;
+      border: 1px solid rgba(115, 76, 16, 1);
+      width: 100%;
+      height: 30px;
+      margin-bottom: 20px;
+    }
+    
+    .form-textarea {
+      border-radius: 5px;
+      background-color: rgba(249, 250, 251, 1);
+      color: rgba(0, 0, 0, 0.5);
+      letter-spacing: 0.3px;
+      padding: 9px 17px;
+      min-height: 100px;
+      font: 400 12px/2 'Poppins', sans-serif;
+      border: 1px solid rgba(115, 76, 16, 1);
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    
+    .upload-container {
+      border-radius: 5px;
+      background-color: rgba(249, 250, 251, 1);
+      display: flex;
+      margin-top: 0px;
+      flex-direction: column;
+      align-items: center;
+      color: rgba(115, 76, 16, 1);
+      letter-spacing: 0.3px;
+      justify-content: center;
+      padding: 26px 80px;
+      font: 400 12px/2 'Poppins', sans-serif;
+      border: 1px dashed rgba(115, 76, 16, 1);
+      margin-bottom: 20px;
+    }
+    
+    .upload-icon {
+      aspect-ratio: 1;
+      object-fit: contain;
+      width: 24px;
+      margin-bottom: 8px;
+    }
+
+  */
+
+    #thumbnail-preview,
+    #gallery-preview {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .file-preview {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #000;
+    }
+
+    .preview-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .visually-hidden {
+      display: none;
+    }
+
+    .upload-icon {
+      width: 32px;
+      height: 32px;
+    }
+
+
+    .submit-button {
+      border-radius: 5px;
+      background-color: rgba(115, 76, 16, 1);
+      align-self: end;
+      display: flex;
+      margin-top: 40px;
+      min-height: 42px;
+      align-items: center;
+      gap: 5px;
+      color: var(--white, #fff);
+      text-align: center;
+      justify-content: center;
+      padding: 11px 20px;
+      font: 13px 'Poppins', sans-serif;
+      border: none;
+      cursor: pointer;
+      border-style: none;
+    }
+    
+    .submit-icon {
+      aspect-ratio: 1;
+      object-fit: contain;
+      width: 14px;
+    }
+    
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+    
+    @media (max-width: 991px) {
+      .dashboard-container {
+        padding: 0 20px;
+      }
+      
+      .sidebar-container {
+        margin-top: 40px;
+      }
+      
+      .main-content {
+        max-width: 100%;
+        padding: 0 20px 100px;
+      }
+      
+      .header {
+        max-width: 100%;
+      }
+      
+      .form-input,
+      .form-textarea {
+        max-width: 100%;
+        padding-right: 20px;
+      }
+      
+      .upload-container {
+        max-width: 100%;
+        padding: 20px;
+      }
+    }
+  </style>
+
 </head>
+
 <body>
 
-<form action="" method="post" enctype="multipart/form-data">
-    <div>
-        <label for="name">Name:</label>
-        <input type="text" name="name" id="name" required>
-    </div>
-    <div>
-        <label for="title">Title:</label>
-        <input type="text" name="title" id="title" required>
-    </div>
-    <div>
-        <label for="description">Description:</label>
-        <textarea name="description" id="description" required></textarea>
-    </div>
-    <div>
-        <label for="banner">Banner:</label>
-        <input type="file" name="banner" id="banner" required>
-    </div>
-    <div>
-        <label for="gallery">Gallery:</label>
-        <input type="file" name="gallery[]" id="gallery" multiple>
-    </div>
-    <div>
-        <input type="submit" name="create" value="Create">
-    </div>
-</form>
+<?php include_once __DIR__ . "/../template/navbarAdm.php"; ?>
 
+
+    <div class="container-dashboard"> <!-- ======= SIDEBAR DASHBOARD ======== -->
+        <div class="sidebar-dashboard">
+            <div class="logo-dashboard">OasisSeek</div>
+            <ul class="menu">
+                <li> <a href="dashboard-MAIN.html"> <img src="../assets/dashboard-icon.png" alt="Dashboard Icon">
+                        Dashboard </a> </li>
+                <li> <a href="dashboard-POST.html"> <img src="../assets/manage-icon.png" alt="Manage Posts Icon"> Manage
+                        Posts </a> </li>
+            </ul>
+        </div> <!-- ======= MAIN DASHBOARD ======== -->
+        <div class="main-dashboard">
+            <div class="dashboard"> <!-- ===== Header ======= -->
+                <header class="dashboard-header">
+                    <h1 class="page-title-dashboard">Add Place</h1>
+                    <div class="user-profile-dashboard"> <img class="profile-icon-dashboard"
+                            src="../assets/profile-admin.png" alt="User profile" />
+                        <div class="profile-text-dashboard">Admin</div>
+                    </div>
+                </header> <!-- ===== Konten Posts ======= -->
+                <div class="dashboard-content">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        <div class="form-section">
+                            <div> <label for="name" class="form-label">Name</label> <input type="text" name="name"
+                                    id="name" class="form-input" placeholder="Enter place name" required> </div>
+                            <div> <label for="title" class="form-label">Title</label> <input type="text" name="title"
+                                    id="title" class="form-input" placeholder="Enter post title" required> </div>
+                            <div> <label for="description" class="form-label">Description</label> <textarea
+                                    name="description" id="description" class="form-textarea"
+                                    placeholder="Describe places in paragraphs" required></textarea> </div>
+                        </div> <!-- Thumbnail --> <label for="thumbnail-upload" class="form-label">Thumbnail</label>
+                        <div class="upload-container" role="button" tabindex="0"
+                            onclick="document.getElementById('thumbnail-upload').click()">
+                            <div id="thumbnail-preview"> <img src="../assets/upload.png" alt="" class="upload-icon" />
+                                <span>Click to upload photo</span> </div> <input type="file" name="banner"
+                                id="thumbnail-upload" class="visually-hidden" accept="image/*" required
+                                onchange="updateThumbnailPreview(event)" />
+                        </div> <!-- Gallery --> <label for="gallery-upload" class="form-label">Gallery</label>
+                        <div class="upload-container" role="button" tabindex="0"
+                            onclick="document.getElementById('gallery-upload').click()">
+                            <div id="gallery-preview"> <img src="../assets/upload.png" alt="" class="upload-icon" />
+                                <span>Click to upload photo (max 3 photos)</span> </div> <input type="file"
+                                name="gallery[]" id="gallery-upload" class="visually-hidden" accept="image/*" multiple
+                                onchange="updateGalleryPreview(event)" />
+                        </div> <button type="submit" name="create" class="submit-button"> <img
+                                src="../assets/add-post.png" alt="" class="submit-icon" /> Add Post </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> <!-- ===== FUNGSI JS UNTUK PREVIEW UP FOTO===== -->
+    <script> // preview thumbnile function updateThumbnailPreview(event) { const previewContainer = document.getElementById('thumbnail-preview'); const files = event.target.files; // hapus previous content previewContainer.innerHTML = ''; if (files && files[0]) { const file = files[0]; // preview icon const icon = document.createElement('img'); icon.src = '../assets/attach-icon.png'; // Replace with the attach icon URL icon.alt = 'Attach Icon'; icon.className = 'preview-icon'; // tambah nama file const fileName = document.createElement('span'); fileName.textContent = file.name; // tambah ke container previewContainer.appendChild(icon); previewContainer.appendChild(fileName); } } // gallery upload preview function updateGalleryPreview(event) { const previewContainer = document.getElementById('gallery-preview'); const files = event.target.files; // hapus previous content previewContainer.innerHTML = ''; if (files) { Array.from(files).slice(0, 3).forEach((file) => { // wrapper untuk file preview const previewItem = document.createElement('div'); previewItem.className = 'file-preview'; // tambah preview icon const icon = document.createElement('img'); icon.src = '../assets/attach-icon.png'; // Replace with the attach icon URL icon.alt = 'Attach Icon'; icon.className = 'preview-icon'; // tambah nama file const fileName = document.createElement('span'); fileName.textContent = file.name; // tambah icon dan nama file ke preview previewItem.appendChild(icon); previewItem.appendChild(fileName); // tambah preview item ke container previewContainer.appendChild(previewItem); }); // gallery dapat up 3 file if (files.length > 3) { const warning = document.createElement('span'); warning.textContent = 'Only 3 photos can be uploaded.'; warning.style.color = 'red'; warning.style.fontSize = '12px'; previewContainer.appendChild(warning); } } } </script>
 </body>
+
 </html>
