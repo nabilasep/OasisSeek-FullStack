@@ -39,7 +39,7 @@ OasisSeek/
 Klik GIF untuk melihat full video
 
 [![Tonton Full di youtube](/images/assets/demo.gif)](https://youtu.be/GkqchF9lrTc?feature=shared)
-Atau bisa diakses melalui link berikut : oasisseek.ifunsoed23.xyz
+Atau bisa diakses melalui link berikut : 'https://oasisseek.ifunsoed23.xyz'
 
 ## Cara Install 👾
 1. Clone repository ini.
